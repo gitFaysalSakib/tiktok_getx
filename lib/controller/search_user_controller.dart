@@ -22,4 +22,6 @@ class SearchUserNameController extends GetxController {
       return retVal;
     }));
   }
+
+  
 }

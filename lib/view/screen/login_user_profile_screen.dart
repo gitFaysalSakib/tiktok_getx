@@ -16,12 +16,15 @@ class _LoginUserProfileScreenState extends State<LoginUserProfileScreen> {
       Get.put(LoginUserProfileController());
   @override
   void initState() {
-    super.initState();
     loginUserProCon.fetchUserTableForID(widget.id);
     loginUserProCon.followFollowing();
     loginUserProCon.loginUserAllVideoLikeCount();
     loginUserProCon.loginUserAllVideoShow();
+    super.initState();
+
   }
+
+  
 
   @override
   Widget build(BuildContext context) {

@@ -19,6 +19,16 @@ class _DisplayVideoScreenState extends State<DisplayVideoScreen> {
   final VideoShowFromFirebaseInDisplay videoFirebaseController =
       Get.put(VideoShowFromFirebaseInDisplay());
 
+
+      @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+  }
+
+ 
+  
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -73,10 +83,10 @@ class _DisplayVideoScreenState extends State<DisplayVideoScreen> {
                                 MaterialPageRoute(
                                     builder: (context) =>
                                         (AllUsersProfileScreen(
-                                            id: data.videoId))));
+                                            id: data.uid))));
                             });
                             
-                            print(data.videoId);
+                            //print(data.videoId);
                           },
                           child: ProfileButton(
                             profilePhotoUrl: data.profilePics,
@@ -156,4 +166,6 @@ class _DisplayVideoScreenState extends State<DisplayVideoScreen> {
           });
     }));
   }
+
+  
 }

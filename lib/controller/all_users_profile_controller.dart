@@ -11,7 +11,11 @@ class AllUsersProfileController extends GetxController {
   // final Rx<List<myUser>> _userDataModel = Rx<List<myUser>>([]);
   // List<myUser> get userDataModel => _userDataModel.value;
   final AuthController authController = Get.put(AuthController());
+   final Rx<Map<String, dynamic>> _onlyLikesCount = Rx<Map<String, dynamic>>({});
+  Map<String, dynamic> get getLikesCount => _onlyLikesCount.value;
 
+final Rx<Map<String, dynamic>> _userMapDataFollowFollowing = Rx<Map<String, dynamic>>({});
+  Map<String, dynamic> get getUserMapDataFollwFolling => _userMapDataFollowFollowing.value;
 //
   final Rx<Map<String, dynamic>> _userMapData = Rx<Map<String, dynamic>>({});
   Map<String, dynamic> get getUserMapData => _userMapData.value;
@@ -23,8 +27,94 @@ class AllUsersProfileController extends GetxController {
 
   final Rx<List<myUser>> _myUserModel = Rx<List<myUser>>([]);
   List<myUser> get myUserModel => _myUserModel.value;
+    List<myUser> myUserQueryList = [];
+
 
   Rx<String> _uid = "".obs;
+
+  //new method apply..start ..
+  fetchIdentifyUserByUserId(String idPassFromAllUserProfile){
+ _myUserModel.bindStream(FirebaseFirestore.instance
+          .collection("users")
+          .where("uid", isEqualTo: idPassFromAllUserProfile)
+          .snapshots()
+          .map((QuerySnapshot query) {
+        List<myUser> myUserQueryList = [];
+        for (var element in query.docs) {
+          myUserQueryList.add(myUser.fromSnap(element));
+          //print(element.data());
+                  
+
+        }
+         
+
+        return myUserQueryList;
+      }));
+
+  }
+
+  followFollowing(String idPassFromAllUserProfile) async {
+    var followersDoc = await FirebaseFirestore.instance
+        .collection("users")
+        .doc(idPassFromAllUserProfile)
+        .collection("followers")
+        .get();
+    int followersLenght = 0;
+    followersLenght = followersDoc.docs.length;
+    // print(followersLenght);
+
+    var followingDoc = await FirebaseFirestore.instance
+        .collection("users")
+        .doc(idPassFromAllUserProfile)
+        .collection("following")
+        .get();
+
+    int followingLength = 0;
+    followingLength = followingDoc.docs.length;
+    // print(followingLength);
+
+    _userMapDataFollowFollowing.value = {
+      'following': followingLength.toString(),
+      'followers': followersLenght.toString()
+    };
+
+    update();
+  }
+
+
+  userAllVideoLikeCount(String idPassFromAllUserProfile) async {
+    List<String> likecount = [];
+    int totalLikeSum = 0;
+
+    var myVideos = await FirebaseFirestore.instance
+        .collection("videos")
+        .where("uid", isEqualTo: idPassFromAllUserProfile)
+        .get();
+    // print(myVideos.docs.length);
+    for (int i = 0; i < myVideos.docs.length; i++) {
+      likecount
+          .add((myVideos.docs[i].data() as dynamic)['likes'].length.toString());
+
+      update();
+    }
+    for (int i = 0; i < likecount.length; i++) {
+      totalLikeSum = int.parse(likecount[i]) + totalLikeSum;
+    }
+
+     _onlyLikesCount.value = {
+      'likes': totalLikeSum,
+     
+    };
+
+    //print(totalLikeSum);
+  }
+
+  logoutChecking() {
+  
+      authController.signOut();
+   
+    }
+  //nwe method apply --end....
 
   //fetch video model where store video info and user info who uplode video...
   //when user clcik video profile then get video id and fetch user who uoploade..
@@ -86,11 +176,11 @@ class AllUsersProfileController extends GetxController {
     for (var item in videoDoc.docs) {
       storeUserIdFromVideoTable = item.data()['uid'];
       userIdFromVideoTable = storeUserIdFromVideoTable;
-      print(userIdFromVideoTable);
+     // print(userIdFromVideoTable);
     }
-    print(userIdFromVideoTable);
-    print("check");
-    print(_uid.value);
+   // print(userIdFromVideoTable);
+   // print("check");
+   // print(_uid.value);
 
     List<String> thumbnails = [];
 

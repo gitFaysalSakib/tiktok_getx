@@ -1,7 +1,12 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:getx_tiktok/controller/all_users_profile_controller.dart';
+import 'package:getx_tiktok/view/screen/all_users_profile_screen.dart';
+import 'package:getx_tiktok/view/screen/login_user_profile_screen.dart';
 
 import '../../controller/search_user_controller.dart';
+import '../../controller/video_show_indisplay_fromfirebase_controller.dart';
 import '../../model/user.dart';
 
 class SearchScreen extends StatelessWidget {
@@ -9,6 +14,15 @@ class SearchScreen extends StatelessWidget {
   TextEditingController searchQuery = TextEditingController();
   final SearchUserNameController searchController =
       Get.put(SearchUserNameController());
+
+       final VideoShowFromFirebaseInDisplay videoFirebaseController =
+      Get.put(VideoShowFromFirebaseInDisplay());
+
+      final AllUsersProfileController allContro =
+      Get.put(AllUsersProfileController());
+
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -34,7 +48,7 @@ class SearchScreen extends StatelessWidget {
           ),
           body: searchController.getSearchFromUserModel.isEmpty
               ? Center(
-                  child: Text("Search Users!"),
+                  child: Text("Search User name!"),
                 )
               : ListView.builder(
                   itemCount: searchController.getSearchFromUserModel.length,
@@ -46,7 +60,30 @@ class SearchScreen extends StatelessWidget {
 
                     return ListTile(
                       onTap: () {
-                        print(user.uid);
+                        if (user.uid ==
+                            FirebaseAuth.instance.currentUser!.uid) {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => (LoginUserProfileScreen(
+                                        id: user.uid,
+                                      ))));
+
+                                      print(user.uid);
+                                      print("allContro.videoDataModel[index].uid");
+                        } else if(user.uid == allContro.videoDataModel[index].uid){
+                                                                print(user.uid);
+
+                           Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => (AllUsersProfileScreen(
+                                        id: user.uid,
+                                      ))));
+                          print("another users id");
+                        }else{
+                          print("code not work");
+                        }
                       },
                       leading: CircleAvatar(
                         backgroundImage: NetworkImage(user.profilePhoto),

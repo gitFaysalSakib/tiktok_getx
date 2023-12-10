@@ -23,6 +23,11 @@ class _AllUsersProfileScreenState extends State<AllUsersProfileScreen> {
   void initState() {
     super.initState();
     print(widget.id);
+    //new start..
+    allUserProfileDatacontroller.fetchIdentifyUserByUserId(widget.id);
+    allUserProfileDatacontroller.followFollowing(widget.id);
+    allUserProfileDatacontroller.userAllVideoLikeCount(widget.id);
+    //new end
 
     allUserProfileDatacontroller
         .fetchFollowersFollowingInitionlResponse(widget.id);
@@ -30,23 +35,25 @@ class _AllUsersProfileScreenState extends State<AllUsersProfileScreen> {
     allUserProfileDatacontroller.fetchUserByUserIdVideoId(widget.id);
     var idcheck = allUserProfileDatacontroller
         .fetchFollowersFollowingInitionlResponse(widget.id);
-    print(idcheck);
+   // print(idcheck);
 
-    print("allscreen");
+    //print("allscreen");
   }
+
+ 
 
   @override
   Widget build(BuildContext context) {
     return Obx(() {
       return PageView.builder(
-          itemCount: allUserProfileDatacontroller.videoDataModel.length,
+          itemCount: allUserProfileDatacontroller.myUserModel.length,
           itemBuilder: (contex, index) {
-            final videoModelDataShow =
-                allUserProfileDatacontroller.videoDataModel[index];
+            final userDatashowFromVideoProfile =
+                allUserProfileDatacontroller.myUserModel[index];
 
             return Scaffold(
               appBar: AppBar(
-                title: Text(videoModelDataShow.username),
+                title: Text(userDatashowFromVideoProfile.name),
                 actions: [
                   IconButton(
                     onPressed: () {},
@@ -65,7 +72,7 @@ class _AllUsersProfileScreenState extends State<AllUsersProfileScreen> {
                     children: [
                       ClipOval(
                         child: CachedNetworkImage(
-                          imageUrl: videoModelDataShow.profilePics,
+                          imageUrl: userDatashowFromVideoProfile.profilePhoto,
                           fit: BoxFit.contain,
                           height: 100,
                           width: 100,
@@ -97,7 +104,7 @@ class _AllUsersProfileScreenState extends State<AllUsersProfileScreen> {
                           ),
                           Text(
                               allUserProfileDatacontroller
-                                  .getUserMapData['followers']
+                                  .getUserMapDataFollwFolling['followers']
                                   .toString(),
                               style: TextStyle(
                                   fontSize: 14, fontWeight: FontWeight.w400))
@@ -120,7 +127,7 @@ class _AllUsersProfileScreenState extends State<AllUsersProfileScreen> {
                           ),
                           Text(
                               allUserProfileDatacontroller
-                                  .getUserMapData['following']
+                                  .getUserMapDataFollwFolling['following']
                                   .toString(),
                               style: TextStyle(
                                   fontSize: 14, fontWeight: FontWeight.w400))
@@ -145,7 +152,7 @@ class _AllUsersProfileScreenState extends State<AllUsersProfileScreen> {
                               // allUserProfileDatacontroller
                               //     .getUserMapData['likes']
                               //     .toString(),
-                              videoModelDataShow.likes.length.toString(),
+                              allUserProfileDatacontroller.getLikesCount['likes'].toString(),
                               style: TextStyle(
                                   fontSize: 14, fontWeight: FontWeight.w400))
                         ],
@@ -157,7 +164,7 @@ class _AllUsersProfileScreenState extends State<AllUsersProfileScreen> {
                   ),
                   InkWell(
                     onTap: () {
-                      allUserProfileDatacontroller.logoutChecking();
+                     // allUserProfileDatacontroller.logoutChecking();
                     },
                     child: Container(
                         width: 150,
@@ -168,7 +175,7 @@ class _AllUsersProfileScreenState extends State<AllUsersProfileScreen> {
                             borderRadius: BorderRadius.circular(10)),
                         child: Center(
                           child: Text(FirebaseAuth.instance.currentUser!.uid ==
-                                  videoModelDataShow.uid
+                                  userDatashowFromVideoProfile.uid
                               ? "Sign Out"
                               : "Follow"),
                         )),
