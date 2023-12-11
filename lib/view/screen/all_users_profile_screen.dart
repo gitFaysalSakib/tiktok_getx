@@ -24,9 +24,15 @@ class _AllUsersProfileScreenState extends State<AllUsersProfileScreen> {
     super.initState();
     print(widget.id);
     //new start..
-    allUserProfileDatacontroller.fetchIdentifyUserByUserId(widget.id);
-    allUserProfileDatacontroller.followFollowing(widget.id);
+    setState(() {
+      allUserProfileDatacontroller.fetchIdentifyUserByUserId(widget.id);
+    allUserProfileDatacontroller.followFollowingCount(widget.id);
     allUserProfileDatacontroller.userAllVideoLikeCount(widget.id);
+    allUserProfileDatacontroller.loginUserAllVideoShow(widget.id);
+    allUserProfileDatacontroller.followFollowingSetFirebase(widget.id);
+      
+    });
+    
     //new end
 
     allUserProfileDatacontroller
@@ -164,7 +170,10 @@ class _AllUsersProfileScreenState extends State<AllUsersProfileScreen> {
                   ),
                   InkWell(
                     onTap: () {
-                     // allUserProfileDatacontroller.logoutChecking();
+                      setState(() {
+                                              allUserProfileDatacontroller.followFollowingSetFirebase(widget.id);
+
+                      });
                     },
                     child: Container(
                         width: 150,
@@ -176,7 +185,7 @@ class _AllUsersProfileScreenState extends State<AllUsersProfileScreen> {
                         child: Center(
                           child: Text(FirebaseAuth.instance.currentUser!.uid ==
                                   userDatashowFromVideoProfile.uid
-                              ? "Sign Out"
+                              ? "Sign Out" : allUserProfileDatacontroller.getFollowOrUnfollow['isFollowing'] == true  ? "Unfollow"
                               : "Follow"),
                         )),
                   ),
@@ -199,11 +208,11 @@ class _AllUsersProfileScreenState extends State<AllUsersProfileScreen> {
                         childAspectRatio: 1,
                         crossAxisSpacing: 5),
                     itemCount: allUserProfileDatacontroller
-                            .getUserMapData['thumbnails']?.length ??
+                            .getUserVideoThumnil['thumbnails']?.length ??
                         0,
                     itemBuilder: (context, index) {
                       String thumbnail = allUserProfileDatacontroller
-                          .getUserMapData['thumbnails'][index];
+                          .getUserVideoThumnil['thumbnails'][index];
                       return CachedNetworkImage(
                         imageUrl: thumbnail,
                         fit: BoxFit.cover,

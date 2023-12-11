@@ -11,11 +11,21 @@ class AllUsersProfileController extends GetxController {
   // final Rx<List<myUser>> _userDataModel = Rx<List<myUser>>([]);
   // List<myUser> get userDataModel => _userDataModel.value;
   final AuthController authController = Get.put(AuthController());
-   final Rx<Map<String, dynamic>> _onlyLikesCount = Rx<Map<String, dynamic>>({});
+
+  final Rx<Map<String, dynamic>> _userVideoThumnil =
+      Rx<Map<String, dynamic>>({});
+  Map<String, dynamic> get getUserVideoThumnil => _userVideoThumnil.value;
+
+  final Rx<Map<String, dynamic>> _isFollowOrNot = Rx<Map<String, dynamic>>({});
+  Map<String, dynamic> get getFollowOrUnfollow => _isFollowOrNot.value;
+
+  final Rx<Map<String, dynamic>> _onlyLikesCount = Rx<Map<String, dynamic>>({});
   Map<String, dynamic> get getLikesCount => _onlyLikesCount.value;
 
-final Rx<Map<String, dynamic>> _userMapDataFollowFollowing = Rx<Map<String, dynamic>>({});
-  Map<String, dynamic> get getUserMapDataFollwFolling => _userMapDataFollowFollowing.value;
+  final Rx<Map<String, dynamic>> _userMapDataFollowFollowing =
+      Rx<Map<String, dynamic>>({});
+  Map<String, dynamic> get getUserMapDataFollwFolling =>
+      _userMapDataFollowFollowing.value;
 //
   final Rx<Map<String, dynamic>> _userMapData = Rx<Map<String, dynamic>>({});
   Map<String, dynamic> get getUserMapData => _userMapData.value;
@@ -27,33 +37,28 @@ final Rx<Map<String, dynamic>> _userMapDataFollowFollowing = Rx<Map<String, dyna
 
   final Rx<List<myUser>> _myUserModel = Rx<List<myUser>>([]);
   List<myUser> get myUserModel => _myUserModel.value;
-    List<myUser> myUserQueryList = [];
-
+  List<myUser> myUserQueryList = [];
 
   Rx<String> _uid = "".obs;
 
   //new method apply..start ..
-  fetchIdentifyUserByUserId(String idPassFromAllUserProfile){
- _myUserModel.bindStream(FirebaseFirestore.instance
-          .collection("users")
-          .where("uid", isEqualTo: idPassFromAllUserProfile)
-          .snapshots()
-          .map((QuerySnapshot query) {
-        List<myUser> myUserQueryList = [];
-        for (var element in query.docs) {
-          myUserQueryList.add(myUser.fromSnap(element));
-          //print(element.data());
-                  
+  fetchIdentifyUserByUserId(String idPassFromAllUserProfile) {
+    _myUserModel.bindStream(FirebaseFirestore.instance
+        .collection("users")
+        .where("uid", isEqualTo: idPassFromAllUserProfile)
+        .snapshots()
+        .map((QuerySnapshot query) {
+      List<myUser> myUserQueryList = [];
+      for (var element in query.docs) {
+        myUserQueryList.add(myUser.fromSnap(element));
+        //print(element.data());
+      }
 
-        }
-         
-
-        return myUserQueryList;
-      }));
-
+      return myUserQueryList;
+    }));
   }
 
-  followFollowing(String idPassFromAllUserProfile) async {
+  followFollowingCount(String idPassFromAllUserProfile) async {
     var followersDoc = await FirebaseFirestore.instance
         .collection("users")
         .doc(idPassFromAllUserProfile)
@@ -81,7 +86,6 @@ final Rx<Map<String, dynamic>> _userMapDataFollowFollowing = Rx<Map<String, dyna
     update();
   }
 
-
   userAllVideoLikeCount(String idPassFromAllUserProfile) async {
     List<String> likecount = [];
     int totalLikeSum = 0;
@@ -101,20 +105,115 @@ final Rx<Map<String, dynamic>> _userMapDataFollowFollowing = Rx<Map<String, dyna
       totalLikeSum = int.parse(likecount[i]) + totalLikeSum;
     }
 
-     _onlyLikesCount.value = {
+    _onlyLikesCount.value = {
       'likes': totalLikeSum,
-     
     };
 
     //print(totalLikeSum);
   }
 
-  logoutChecking() {
-  
-      authController.signOut();
-   
+  loginUserAllVideoShow(String idPassFromAllUserProfile) async {
+    List<String> thumbnails = [];
+
+    var myVideos = await FirebaseFirestore.instance
+        .collection("videos")
+        .where("uid", isEqualTo: idPassFromAllUserProfile)
+        .get();
+    for (int i = 0; i < myVideos.docs.length; i++) {
+      thumbnails.add((myVideos.docs[i].data() as dynamic)['thumbnail']);
+     // print(thumbnails.length);
+      update();
     }
-  //nwe method apply --end....
+
+    _userVideoThumnil.value = {
+      'thumbnails': thumbnails,
+    };
+  } 
+
+
+  followFollowingSetFirebase(String idPassFromAllUserProfile) async {
+         bool isFollowing = false;
+
+    var docFollowers = await FirebaseFirestore.instance
+        .collection("users")
+        .doc(idPassFromAllUserProfile)
+        .collection("followers")
+        .doc(FirebaseAuth.instance.currentUser!.uid)
+        .get();
+   // print(docFollowers.exists);
+ FirebaseFirestore.instance.collection("users").doc(idPassFromAllUserProfile).collection("followers").doc(FirebaseAuth.instance.currentUser!.uid).get().then((value){
+
+      if(value.exists){
+        isFollowing = true;
+        print("unfollow");
+            
+     
+
+      }else{
+        isFollowing = false;
+          FirebaseFirestore.instance
+          .collection("users")
+          .doc(idPassFromAllUserProfile)
+          .collection("followers")
+          .doc(FirebaseAuth.instance.currentUser!.uid)
+          .set({});
+
+        print("follow");
+           
+
+      }
+            print(isFollowing);
+             _isFollowOrNot.value = {
+      'isFollowing': isFollowing,
+      
+     
+    };
+
+    }
+    
+    
+    );
+     update();
+    _isFollowOrNot.value.update('isFollowing', (value) => !value);
+    
+
+
+    // if (docFollowers.exists) {
+    //   isFollowing = true;
+    //       update();
+          
+
+    // } else {
+    //   await FirebaseFirestore.instance
+    //       .collection("users")
+    //       .doc(idPassFromAllUserProfile)
+    //       .collection("followers")
+    //       .doc(FirebaseAuth.instance.currentUser!.uid)
+    //       .set({});
+
+    //   // print(docFollowers.exists);
+    //   isFollowing = false;
+    //       update();
+
+    // }
+
+   
+
+    
+  }
+
+
+
+
+
+  logoutChecking() {
+    if (userIdFromVideoTable == FirebaseAuth.instance.currentUser!.uid) {
+      authController.signOut();
+    } else {
+      followUser();
+    }
+  }
+  //nwe method apply --EEEEENNNNNDDDDDDDDDDDDDD....
 
   //fetch video model where store video info and user info who uplode video...
   //when user clcik video profile then get video id and fetch user who uoploade..
@@ -122,7 +221,6 @@ final Rx<Map<String, dynamic>> _userMapDataFollowFollowing = Rx<Map<String, dyna
   //**note****
   //this bindStrem type query fetch only one vale of any firebase table..
   fetchUserByUserIdVideoId(String userOrVideoIdPass) async {
-   
     if (userOrVideoIdPass == FirebaseAuth.instance.currentUser!.uid) {
       // print(userOrVideoIdPass);
       _videoDataModel.bindStream(FirebaseFirestore.instance
@@ -134,10 +232,7 @@ final Rx<Map<String, dynamic>> _userMapDataFollowFollowing = Rx<Map<String, dyna
         for (var element in query.docs) {
           videoDataList.add(VideoUploadData.fromSnap(element));
           //print(element.data());
-                  
-
         }
-         
 
         return videoDataList;
       }));
@@ -163,8 +258,6 @@ final Rx<Map<String, dynamic>> _userMapDataFollowFollowing = Rx<Map<String, dyna
   var userIdFromVideoTable;
 
   fetchFollowersFollowingInitionlResponse(String id) async {
-   
-
     //first of all query video table and fetch user id and user id store a variable and use this varibale in next query..
     var videoDoc = await FirebaseFirestore.instance
         .collection('videos')
@@ -176,11 +269,11 @@ final Rx<Map<String, dynamic>> _userMapDataFollowFollowing = Rx<Map<String, dyna
     for (var item in videoDoc.docs) {
       storeUserIdFromVideoTable = item.data()['uid'];
       userIdFromVideoTable = storeUserIdFromVideoTable;
-     // print(userIdFromVideoTable);
+      // print(userIdFromVideoTable);
     }
-   // print(userIdFromVideoTable);
-   // print("check");
-   // print(_uid.value);
+    // print(userIdFromVideoTable);
+    // print("check");
+    // print(_uid.value);
 
     List<String> thumbnails = [];
 
@@ -264,14 +357,6 @@ final Rx<Map<String, dynamic>> _userMapDataFollowFollowing = Rx<Map<String, dyna
     update();
   }
 
-  logoutChecking() {
-    if (userIdFromVideoTable == FirebaseAuth.instance.currentUser!.uid) {
-      authController.signOut();
-    } else {
-      followUser();
-    }
-  }
-
   followUser() async {
     var docFollowers = await FirebaseFirestore.instance
         .collection("users")
@@ -279,6 +364,7 @@ final Rx<Map<String, dynamic>> _userMapDataFollowFollowing = Rx<Map<String, dyna
         .collection("followers")
         .doc(FirebaseAuth.instance.currentUser!.uid)
         .get();
+   // print(docFollowers.exists);
 
     if (!docFollowers.exists) {
       await FirebaseFirestore.instance
