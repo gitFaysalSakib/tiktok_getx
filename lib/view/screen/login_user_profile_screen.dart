@@ -38,7 +38,10 @@ class _LoginUserProfileScreenState extends State<LoginUserProfileScreen> {
                 title: Text(userModelIndex.name),
                 actions: [
                   IconButton(
-                    onPressed: () {},
+                    onPressed: () {
+
+                      
+                    },
                     icon: Icon(Icons.info_outline_rounded),
                   )
                 ],

@@ -29,18 +29,18 @@ class _AllUsersProfileScreenState extends State<AllUsersProfileScreen> {
     allUserProfileDatacontroller.followFollowingCount(widget.id);
     allUserProfileDatacontroller.userAllVideoLikeCount(widget.id);
     allUserProfileDatacontroller.loginUserAllVideoShow(widget.id);
-    allUserProfileDatacontroller.followFollowingSetFirebase(widget.id);
+    allUserProfileDatacontroller.followUnFollowCheck(widget.id);
       
     });
     
     //new end
 
-    allUserProfileDatacontroller
-        .fetchFollowersFollowingInitionlResponse(widget.id);
+    // allUserProfileDatacontroller
+    //     .fetchFollowersFollowingInitionlResponse(widget.id);
 
-    allUserProfileDatacontroller.fetchUserByUserIdVideoId(widget.id);
-    var idcheck = allUserProfileDatacontroller
-        .fetchFollowersFollowingInitionlResponse(widget.id);
+    // allUserProfileDatacontroller.fetchUserByUserIdVideoId(widget.id);
+    // var idcheck = allUserProfileDatacontroller
+    //     .fetchFollowersFollowingInitionlResponse(widget.id);
    // print(idcheck);
 
     //print("allscreen");
@@ -62,7 +62,9 @@ class _AllUsersProfileScreenState extends State<AllUsersProfileScreen> {
                 title: Text(userDatashowFromVideoProfile.name),
                 actions: [
                   IconButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      print("back");
+                    },
                     icon: Icon(Icons.info_outline_rounded),
                   )
                 ],
@@ -170,10 +172,10 @@ class _AllUsersProfileScreenState extends State<AllUsersProfileScreen> {
                   ),
                   InkWell(
                     onTap: () {
-                      setState(() {
-                                              allUserProfileDatacontroller.followFollowingSetFirebase(widget.id);
+                      
+                      allUserProfileDatacontroller.clickFollowToAddFollowers(widget.id);
 
-                      });
+                      
                     },
                     child: Container(
                         width: 150,

@@ -121,67 +121,53 @@ class AllUsersProfileController extends GetxController {
         .get();
     for (int i = 0; i < myVideos.docs.length; i++) {
       thumbnails.add((myVideos.docs[i].data() as dynamic)['thumbnail']);
-     // print(thumbnails.length);
+      // print(thumbnails.length);
       update();
     }
 
     _userVideoThumnil.value = {
       'thumbnails': thumbnails,
     };
-  } 
+  }    
+  bool isFollowing = false;
 
 
-  followFollowingSetFirebase(String idPassFromAllUserProfile) async {
-         bool isFollowing = false;
+  followUnFollowCheck(String idPassFromAllUserProfile) async {
+    print(idPassFromAllUserProfile);
 
-    var docFollowers = await FirebaseFirestore.instance
+   
+    FirebaseFirestore.instance
         .collection("users")
         .doc(idPassFromAllUserProfile)
         .collection("followers")
         .doc(FirebaseAuth.instance.currentUser!.uid)
-        .get();
-   // print(docFollowers.exists);
- FirebaseFirestore.instance.collection("users").doc(idPassFromAllUserProfile).collection("followers").doc(FirebaseAuth.instance.currentUser!.uid).get().then((value){
-
-      if(value.exists){
+        .get()
+        .then((value) {
+      if (value.exists) {
         isFollowing = true;
-        print("unfollow");
-            
-     
-
-      }else{
+       print("unfollow");
+      } else {
         isFollowing = false;
-          FirebaseFirestore.instance
-          .collection("users")
-          .doc(idPassFromAllUserProfile)
-          .collection("followers")
-          .doc(FirebaseAuth.instance.currentUser!.uid)
-          .set({});
+        // FirebaseFirestore.instance
+        //     .collection("users")
+        //     .doc(idPassFromAllUserProfile)
+        //     .collection("followers")
+        //     .doc(FirebaseAuth.instance.currentUser!.uid)
+        //     .set({});
 
         print("follow");
-           
-
       }
-            print(isFollowing);
-             _isFollowOrNot.value = {
-      'isFollowing': isFollowing,
-      
-     
-    };
-
-    }
-    
-    
-    );
-     update();
-    _isFollowOrNot.value.update('isFollowing', (value) => !value);
-    
-
+     // print(isFollowing);
+      _isFollowOrNot.value = {
+        'isFollowing': isFollowing,
+      };
+    });
+    update();
+    //_isFollowOrNot.value.update('isFollowing', (value) => !value);
 
     // if (docFollowers.exists) {
     //   isFollowing = true;
     //       update();
-          
 
     // } else {
     //   await FirebaseFirestore.instance
@@ -196,15 +182,19 @@ class AllUsersProfileController extends GetxController {
     //       update();
 
     // }
-
-   
-
-    
   }
 
+  clickFollowToAddFollowers(String idPassFromAllUserProfile) async{
+       await FirebaseFirestore.instance
+          .collection("users")
+          .doc(idPassFromAllUserProfile)
+          .collection("followers")
+          .doc(FirebaseAuth.instance.currentUser!.uid)
+          .set({});
+          _isFollowOrNot.value.update('isFollowing', (value) => !value);
 
 
-
+  }
 
   logoutChecking() {
     if (userIdFromVideoTable == FirebaseAuth.instance.currentUser!.uid) {
@@ -364,7 +354,7 @@ class AllUsersProfileController extends GetxController {
         .collection("followers")
         .doc(FirebaseAuth.instance.currentUser!.uid)
         .get();
-   // print(docFollowers.exists);
+    // print(docFollowers.exists);
 
     if (!docFollowers.exists) {
       await FirebaseFirestore.instance
