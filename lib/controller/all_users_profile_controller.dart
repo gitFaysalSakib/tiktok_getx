@@ -51,7 +51,6 @@ class AllUsersProfileController extends GetxController {
       List<myUser> myUserQueryList = [];
       for (var element in query.docs) {
         myUserQueryList.add(myUser.fromSnap(element));
-        //print(element.data());
       }
 
       return myUserQueryList;
@@ -66,7 +65,6 @@ class AllUsersProfileController extends GetxController {
         .get();
     int followersLenght = 0;
     followersLenght = followersDoc.docs.length;
-    // print(followersLenght);
 
     var followingDoc = await FirebaseFirestore.instance
         .collection("users")
@@ -76,7 +74,9 @@ class AllUsersProfileController extends GetxController {
 
     int followingLength = 0;
     followingLength = followingDoc.docs.length;
-    // print(followingLength);
+
+
+   
 
     _userMapDataFollowFollowing.value = {
       'following': followingLength.toString(),
@@ -94,7 +94,6 @@ class AllUsersProfileController extends GetxController {
         .collection("videos")
         .where("uid", isEqualTo: idPassFromAllUserProfile)
         .get();
-    // print(myVideos.docs.length);
     for (int i = 0; i < myVideos.docs.length; i++) {
       likecount
           .add((myVideos.docs[i].data() as dynamic)['likes'].length.toString());
@@ -109,7 +108,6 @@ class AllUsersProfileController extends GetxController {
       'likes': totalLikeSum,
     };
 
-    //print(totalLikeSum);
   }
 
   loginUserAllVideoShow(String idPassFromAllUserProfile) async {
@@ -121,7 +119,6 @@ class AllUsersProfileController extends GetxController {
         .get();
     for (int i = 0; i < myVideos.docs.length; i++) {
       thumbnails.add((myVideos.docs[i].data() as dynamic)['thumbnail']);
-      // print(thumbnails.length);
       update();
     }
 
@@ -132,8 +129,7 @@ class AllUsersProfileController extends GetxController {
   bool isFollowing = false;
 
 
-  followUnFollowCheck(String idPassFromAllUserProfile) async {
-    print(idPassFromAllUserProfile);
+  followUnFollowButtonCheck(String idPassFromAllUserProfile) async {
 
    
     FirebaseFirestore.instance
@@ -145,43 +141,16 @@ class AllUsersProfileController extends GetxController {
         .then((value) {
       if (value.exists) {
         isFollowing = true;
-       print("unfollow");
       } else {
         isFollowing = false;
-        // FirebaseFirestore.instance
-        //     .collection("users")
-        //     .doc(idPassFromAllUserProfile)
-        //     .collection("followers")
-        //     .doc(FirebaseAuth.instance.currentUser!.uid)
-        //     .set({});
-
-        print("follow");
+       
       }
-     // print(isFollowing);
       _isFollowOrNot.value = {
         'isFollowing': isFollowing,
       };
     });
     update();
-    //_isFollowOrNot.value.update('isFollowing', (value) => !value);
-
-    // if (docFollowers.exists) {
-    //   isFollowing = true;
-    //       update();
-
-    // } else {
-    //   await FirebaseFirestore.instance
-    //       .collection("users")
-    //       .doc(idPassFromAllUserProfile)
-    //       .collection("followers")
-    //       .doc(FirebaseAuth.instance.currentUser!.uid)
-    //       .set({});
-
-    //   // print(docFollowers.exists);
-    //   isFollowing = false;
-    //       update();
-
-    // }
+   
   }
 
   clickFollowToAddFollowers(String idPassFromAllUserProfile) async{
@@ -193,7 +162,70 @@ class AllUsersProfileController extends GetxController {
           .set({});
           _isFollowOrNot.value.update('isFollowing', (value) => !value);
 
+//after click follow button current users following table add this follow users id..
+//this code is below..
+          var getFollowersWhenClickFollowButton = await FirebaseFirestore.instance
+          .collection("users")
+          .doc(idPassFromAllUserProfile)
+          .collection("followers")
+          .doc(FirebaseAuth.instance.currentUser!.uid).get();
+          print(getFollowersWhenClickFollowButton.exists);
 
+          if(getFollowersWhenClickFollowButton.exists){
+            print("login user found");
+
+             await FirebaseFirestore.instance
+          .collection("users")
+          .doc(FirebaseAuth.instance.currentUser!.uid)
+          .collection("following")
+          .doc(idPassFromAllUserProfile)
+          .set({});
+
+   
+
+
+          }else{
+            print("not found");
+          }
+
+
+  }
+
+
+  unfollowButtonClick(String idPassFromAllUserProfile) async{
+     DocumentSnapshot doc = await FirebaseFirestore.instance
+        .collection("users")
+        .doc(idPassFromAllUserProfile).collection('followers').doc(FirebaseAuth.instance.currentUser!.uid)
+        .get();
+        print(doc.exists);
+     var loggedUserId = AuthController.instance.user.uid;
+     print(loggedUserId);
+    //var currentUserid = FirebaseAuth.instance.currentUser!.uid;
+    if (doc.exists) {
+      await FirebaseFirestore.instance
+          .collection("users")
+          .doc(idPassFromAllUserProfile).collection('followers').doc(loggedUserId)
+          .delete();
+          _isFollowOrNot.value.update('isFollowing', (value) => !value);
+
+          print('dddddd');
+    }
+    
+  }
+
+  followUnfollowMethod(String idPassFromAllUserProfile)async{
+    DocumentSnapshot doc = await FirebaseFirestore.instance
+        .collection("users")
+        .doc(idPassFromAllUserProfile).collection('followers').doc(FirebaseAuth.instance.currentUser!.uid)
+        .get();
+        print(doc.exists);
+        if(doc.exists){
+           unfollowButtonClick(idPassFromAllUserProfile);
+        }
+        else{
+         
+          clickFollowToAddFollowers(idPassFromAllUserProfile);
+        }
   }
 
   logoutChecking() {
@@ -259,11 +291,8 @@ class AllUsersProfileController extends GetxController {
     for (var item in videoDoc.docs) {
       storeUserIdFromVideoTable = item.data()['uid'];
       userIdFromVideoTable = storeUserIdFromVideoTable;
-      // print(userIdFromVideoTable);
     }
-    // print(userIdFromVideoTable);
-    // print("check");
-    // print(_uid.value);
+    
 
     List<String> thumbnails = [];
 
@@ -291,7 +320,6 @@ class AllUsersProfileController extends GetxController {
     int followersLenght = 0;
     int following = 0;
 
-    //bool isFollowing = false;
 
     followersLenght = followerDoc.docs.length;
     following = followingDoc.docs.length;
@@ -301,7 +329,6 @@ class AllUsersProfileController extends GetxController {
       'following': following.toString(),
       'thumbnails': thumbnails
 
-      //'isFollowing' : isFollowing,
     };
 
     var docFollowing = await FirebaseFirestore.instance
@@ -313,7 +340,6 @@ class AllUsersProfileController extends GetxController {
 
     var storeFollowersIdFetchForFollowingId;
     print(followersLenght);
-    // print(storeFollowersIdFetchForFollowingId);
     var followersIdGetForFollowingIdStore = await FirebaseFirestore.instance
         .collection('users')
         .doc(userIdFromVideoTable)
@@ -322,7 +348,6 @@ class AllUsersProfileController extends GetxController {
     for (var snapshot in querySnapshots.docs) {
       storeFollowersIdFetchForFollowingId = snapshot.id;
     }
-    // print(storeFollowersIdFetchForFollowingId);
 
     if (followersLenght > 0) {
       //  print("userIdFromVideoTable");
@@ -354,7 +379,6 @@ class AllUsersProfileController extends GetxController {
         .collection("followers")
         .doc(FirebaseAuth.instance.currentUser!.uid)
         .get();
-    // print(docFollowers.exists);
 
     if (!docFollowers.exists) {
       await FirebaseFirestore.instance
@@ -367,9 +391,7 @@ class AllUsersProfileController extends GetxController {
       _userMapData.value
           .update('followers', (value) => (int.parse(value) + 1).toString());
 
-      // print("add value found");
     } else {
-      /// print("already added");
     }
 
     update();

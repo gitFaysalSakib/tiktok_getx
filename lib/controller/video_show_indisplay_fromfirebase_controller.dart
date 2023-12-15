@@ -29,6 +29,7 @@ class VideoShowFromFirebaseInDisplay extends GetxController {
         .collection("videos")
         .doc(videoIdCheck)
         .get();
+        print(doc.exists);
      var loggedUserId = AuthController.instance.user.uid;
      print(loggedUserId);
     //var currentUserid = FirebaseAuth.instance.currentUser!.uid;

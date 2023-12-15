@@ -29,7 +29,7 @@ class _AllUsersProfileScreenState extends State<AllUsersProfileScreen> {
     allUserProfileDatacontroller.followFollowingCount(widget.id);
     allUserProfileDatacontroller.userAllVideoLikeCount(widget.id);
     allUserProfileDatacontroller.loginUserAllVideoShow(widget.id);
-    allUserProfileDatacontroller.followUnFollowCheck(widget.id);
+    allUserProfileDatacontroller.followUnFollowButtonCheck(widget.id);
       
     });
     
@@ -173,7 +173,8 @@ class _AllUsersProfileScreenState extends State<AllUsersProfileScreen> {
                   InkWell(
                     onTap: () {
                       
-                      allUserProfileDatacontroller.clickFollowToAddFollowers(widget.id);
+                    //  allUserProfileDatacontroller.clickFollowToAddFollowers(widget.id);
+                    allUserProfileDatacontroller.followUnfollowMethod(widget.id);
 
                       
                     },
