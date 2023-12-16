@@ -15,14 +15,11 @@ class SearchScreen extends StatelessWidget {
   final SearchUserNameController searchController =
       Get.put(SearchUserNameController());
 
-       final VideoShowFromFirebaseInDisplay videoFirebaseController =
+  final VideoShowFromFirebaseInDisplay videoFirebaseController =
       Get.put(VideoShowFromFirebaseInDisplay());
 
-      final AllUsersProfileController allContro =
+  final AllUsersProfileController allContro =
       Get.put(AllUsersProfileController());
-
-
-
 
   @override
   Widget build(BuildContext context) {
@@ -69,20 +66,18 @@ class SearchScreen extends StatelessWidget {
                                         id: user.uid,
                                       ))));
 
-                                      print(user.uid);
-                                      print("allContro.videoDataModel[index].uid");
-                        } else if(user.uid == allContro.videoDataModel[index].uid){
-                                                                print(user.uid);
+                          print(user.uid);
+                          print("allContro.videoDataModel[index].uid");
+                        } else {
+                          print(user.uid);
 
-                           Navigator.push(
+                          Navigator.push(
                               context,
                               MaterialPageRoute(
                                   builder: (context) => (AllUsersProfileScreen(
                                         id: user.uid,
                                       ))));
                           print("another users id");
-                        }else{
-                          print("code not work");
                         }
                       },
                       leading: CircleAvatar(
