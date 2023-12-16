@@ -26,13 +26,12 @@ class _AllUsersProfileScreenState extends State<AllUsersProfileScreen> {
     //new start..
     setState(() {
       allUserProfileDatacontroller.fetchIdentifyUserByUserId(widget.id);
-    allUserProfileDatacontroller.followFollowingCount(widget.id);
-    allUserProfileDatacontroller.userAllVideoLikeCount(widget.id);
-    allUserProfileDatacontroller.loginUserAllVideoShow(widget.id);
-    allUserProfileDatacontroller.followUnFollowButtonCheck(widget.id);
-      
+      allUserProfileDatacontroller.followFollowingCount(widget.id);
+      allUserProfileDatacontroller.userAllVideoLikeCount(widget.id);
+      allUserProfileDatacontroller.loginUserAllVideoShow(widget.id);
+      allUserProfileDatacontroller.followUnFollowButtonCheck(widget.id);
     });
-    
+
     //new end
 
     // allUserProfileDatacontroller
@@ -41,12 +40,10 @@ class _AllUsersProfileScreenState extends State<AllUsersProfileScreen> {
     // allUserProfileDatacontroller.fetchUserByUserIdVideoId(widget.id);
     // var idcheck = allUserProfileDatacontroller
     //     .fetchFollowersFollowingInitionlResponse(widget.id);
-   // print(idcheck);
+    // print(idcheck);
 
     //print("allscreen");
   }
-
- 
 
   @override
   Widget build(BuildContext context) {
@@ -160,7 +157,9 @@ class _AllUsersProfileScreenState extends State<AllUsersProfileScreen> {
                               // allUserProfileDatacontroller
                               //     .getUserMapData['likes']
                               //     .toString(),
-                              allUserProfileDatacontroller.getLikesCount['likes'].toString(),
+                              allUserProfileDatacontroller
+                                  .getLikesCount['likes']
+                                  .toString(),
                               style: TextStyle(
                                   fontSize: 14, fontWeight: FontWeight.w400))
                         ],
@@ -172,11 +171,15 @@ class _AllUsersProfileScreenState extends State<AllUsersProfileScreen> {
                   ),
                   InkWell(
                     onTap: () {
-                      
-                    //  allUserProfileDatacontroller.clickFollowToAddFollowers(widget.id);
-                    allUserProfileDatacontroller.followUnfollowMethod(widget.id);
+                      if (FirebaseAuth.instance.currentUser!.uid ==
+                          userDatashowFromVideoProfile.uid) {
+                        allUserProfileDatacontroller.logoutChecking();
+                      } else {
+                        allUserProfileDatacontroller
+                            .followUnfollowMethod(widget.id);
+                      }
 
-                      
+                      //  allUserProfileDatacontroller.clickFollowToAddFollowers(widget.id);
                     },
                     child: Container(
                         width: 150,
@@ -188,8 +191,12 @@ class _AllUsersProfileScreenState extends State<AllUsersProfileScreen> {
                         child: Center(
                           child: Text(FirebaseAuth.instance.currentUser!.uid ==
                                   userDatashowFromVideoProfile.uid
-                              ? "Sign Out" : allUserProfileDatacontroller.getFollowOrUnfollow['isFollowing'] == true  ? "Unfollow"
-                              : "Follow"),
+                              ? "Sign Out"
+                              : allUserProfileDatacontroller
+                                          .getFollowOrUnfollow['isFollowing'] ==
+                                      true
+                                  ? "Unfollow"
+                                  : "Follow"),
                         )),
                   ),
                   SizedBox(

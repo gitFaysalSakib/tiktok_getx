@@ -229,11 +229,9 @@ class AllUsersProfileController extends GetxController {
   }
 
   logoutChecking() {
-    if (userIdFromVideoTable == FirebaseAuth.instance.currentUser!.uid) {
-      authController.signOut();
-    } else {
-      followUser();
-    }
+          authController.signOut();
+
+   
   }
   //nwe method apply --EEEEENNNNNDDDDDDDDDDDDDD....
 
@@ -242,158 +240,158 @@ class AllUsersProfileController extends GetxController {
   //when user click profile button then get logged in user id and search user id in video model firebase..
   //**note****
   //this bindStrem type query fetch only one vale of any firebase table..
-  fetchUserByUserIdVideoId(String userOrVideoIdPass) async {
-    if (userOrVideoIdPass == FirebaseAuth.instance.currentUser!.uid) {
-      // print(userOrVideoIdPass);
-      _videoDataModel.bindStream(FirebaseFirestore.instance
-          .collection("videos")
-          .where("uid", isEqualTo: userOrVideoIdPass)
-          .snapshots()
-          .map((QuerySnapshot query) {
-        List<VideoUploadData> videoDataList = [];
-        for (var element in query.docs) {
-          videoDataList.add(VideoUploadData.fromSnap(element));
-          //print(element.data());
-        }
+  // fetchUserByUserIdVideoId(String userOrVideoIdPass) async {
+  //   if (userOrVideoIdPass == FirebaseAuth.instance.currentUser!.uid) {
+  //     // print(userOrVideoIdPass);
+  //     _videoDataModel.bindStream(FirebaseFirestore.instance
+  //         .collection("videos")
+  //         .where("uid", isEqualTo: userOrVideoIdPass)
+  //         .snapshots()
+  //         .map((QuerySnapshot query) {
+  //       List<VideoUploadData> videoDataList = [];
+  //       for (var element in query.docs) {
+  //         videoDataList.add(VideoUploadData.fromSnap(element));
+  //         //print(element.data());
+  //       }
 
-        return videoDataList;
-      }));
-    } else {
-      //   print(userOrVideoIdPass);
+  //       return videoDataList;
+  //     }));
+  //   } else {
+  //     //   print(userOrVideoIdPass);
 
-      _videoDataModel.bindStream(FirebaseFirestore.instance
-          .collection("videos")
-          .where("videoId", isEqualTo: userOrVideoIdPass)
-          .snapshots()
-          .map((QuerySnapshot query) {
-        List<VideoUploadData> videoDataList = [];
-        for (var element in query.docs) {
-          videoDataList.add(VideoUploadData.fromSnap(element));
-        }
+  //     _videoDataModel.bindStream(FirebaseFirestore.instance
+  //         .collection("videos")
+  //         .where("videoId", isEqualTo: userOrVideoIdPass)
+  //         .snapshots()
+  //         .map((QuerySnapshot query) {
+  //       List<VideoUploadData> videoDataList = [];
+  //       for (var element in query.docs) {
+  //         videoDataList.add(VideoUploadData.fromSnap(element));
+  //       }
 
-        return videoDataList;
-      }));
-    }
-  }
+  //       return videoDataList;
+  //     }));
+  //   }
+  // }
 
-  var storeUserIdFromVideoTable = "";
-  var userIdFromVideoTable;
+  // var storeUserIdFromVideoTable = "";
+  // var userIdFromVideoTable;
 
-  fetchFollowersFollowingInitionlResponse(String id) async {
-    //first of all query video table and fetch user id and user id store a variable and use this varibale in next query..
-    var videoDoc = await FirebaseFirestore.instance
-        .collection('videos')
-        .where("videoId", isEqualTo: id)
-        .get();
-    var followerDoc;
-    var followingDoc;
+  // fetchFollowersFollowingInitionlResponse(String id) async {
+  //   //first of all query video table and fetch user id and user id store a variable and use this varibale in next query..
+  //   var videoDoc = await FirebaseFirestore.instance
+  //       .collection('videos')
+  //       .where("videoId", isEqualTo: id)
+  //       .get();
+  //   var followerDoc;
+  //   var followingDoc;
 
-    for (var item in videoDoc.docs) {
-      storeUserIdFromVideoTable = item.data()['uid'];
-      userIdFromVideoTable = storeUserIdFromVideoTable;
-    }
+  //   for (var item in videoDoc.docs) {
+  //     storeUserIdFromVideoTable = item.data()['uid'];
+  //     userIdFromVideoTable = storeUserIdFromVideoTable;
+  //   }
     
 
-    List<String> thumbnails = [];
+  //   List<String> thumbnails = [];
 
-    var myVideos = await FirebaseFirestore.instance
-        .collection("videos")
-        .where("uid", isEqualTo: userIdFromVideoTable)
-        .get();
-    for (int i = 0; i < myVideos.docs.length; i++) {
-      thumbnails.add((myVideos.docs[i].data() as dynamic)['thumbnail']);
-      update();
-    }
+  //   var myVideos = await FirebaseFirestore.instance
+  //       .collection("videos")
+  //       .where("uid", isEqualTo: userIdFromVideoTable)
+  //       .get();
+  //   for (int i = 0; i < myVideos.docs.length; i++) {
+  //     thumbnails.add((myVideos.docs[i].data() as dynamic)['thumbnail']);
+  //     update();
+  //   }
 
-    followerDoc = await FirebaseFirestore.instance
-        .collection("users")
-        .doc(userIdFromVideoTable)
-        .collection("followers")
-        .get();
+  //   followerDoc = await FirebaseFirestore.instance
+  //       .collection("users")
+  //       .doc(userIdFromVideoTable)
+  //       .collection("followers")
+  //       .get();
 
-    followingDoc = await FirebaseFirestore.instance
-        .collection("users")
-        .doc(FirebaseAuth.instance.currentUser!.uid)
-        .collection("following")
-        .get();
+  //   followingDoc = await FirebaseFirestore.instance
+  //       .collection("users")
+  //       .doc(FirebaseAuth.instance.currentUser!.uid)
+  //       .collection("following")
+  //       .get();
 
-    int followersLenght = 0;
-    int following = 0;
+  //   int followersLenght = 0;
+  //   int following = 0;
 
 
-    followersLenght = followerDoc.docs.length;
-    following = followingDoc.docs.length;
+  //   followersLenght = followerDoc.docs.length;
+  //   following = followingDoc.docs.length;
 
-    _userMapData.value = {
-      'followers': followersLenght.toString(),
-      'following': following.toString(),
-      'thumbnails': thumbnails
+  //   _userMapData.value = {
+  //     'followers': followersLenght.toString(),
+  //     'following': following.toString(),
+  //     'thumbnails': thumbnails
 
-    };
+  //   };
 
-    var docFollowing = await FirebaseFirestore.instance
-        .collection("users")
-        .doc(FirebaseAuth.instance.currentUser!.uid)
-        .collection("following")
-        .doc(userIdFromVideoTable)
-        .get();
+  //   var docFollowing = await FirebaseFirestore.instance
+  //       .collection("users")
+  //       .doc(FirebaseAuth.instance.currentUser!.uid)
+  //       .collection("following")
+  //       .doc(userIdFromVideoTable)
+  //       .get();
 
-    var storeFollowersIdFetchForFollowingId;
-    print(followersLenght);
-    var followersIdGetForFollowingIdStore = await FirebaseFirestore.instance
-        .collection('users')
-        .doc(userIdFromVideoTable)
-        .collection('followers');
-    var querySnapshots = await followersIdGetForFollowingIdStore.get();
-    for (var snapshot in querySnapshots.docs) {
-      storeFollowersIdFetchForFollowingId = snapshot.id;
-    }
+  //   var storeFollowersIdFetchForFollowingId;
+  //   print(followersLenght);
+  //   var followersIdGetForFollowingIdStore = await FirebaseFirestore.instance
+  //       .collection('users')
+  //       .doc(userIdFromVideoTable)
+  //       .collection('followers');
+  //   var querySnapshots = await followersIdGetForFollowingIdStore.get();
+  //   for (var snapshot in querySnapshots.docs) {
+  //     storeFollowersIdFetchForFollowingId = snapshot.id;
+  //   }
 
-    if (followersLenght > 0) {
-      //  print("userIdFromVideoTable");
-      //followers document id get
-      //first map user to followers
-      //then get and store a varibale
-      //by for loop catch document id
-      //next query use document to store following document
-      //because followers document store to following document..
+  //   // if (followersLenght > 0) {
+  //   //   //  print("userIdFromVideoTable");
+  //   //   //followers document id get
+  //   //   //first map user to followers
+  //   //   //then get and store a varibale
+  //   //   //by for loop catch document id
+  //   //   //next query use document to store following document
+  //   //   //because followers document store to following document..
 
-      await FirebaseFirestore.instance
-          .collection("users")
-          .doc(FirebaseAuth.instance.currentUser!.uid)
-          .collection("following")
-          .doc(userIdFromVideoTable)
-          .set({});
+  //   //   await FirebaseFirestore.instance
+  //   //       .collection("users")
+  //   //       .doc(FirebaseAuth.instance.currentUser!.uid)
+  //   //       .collection("following")
+  //   //       .doc(userIdFromVideoTable)
+  //   //       .set({});
 
-      _userMapData.value
-          .update('following', (value) => (int.parse(value) + 1).toString());
-    } else {}
+  //   //   _userMapData.value
+  //   //       .update('following', (value) => (int.parse(value) + 1).toString());
+  //   // } else {}
 
-    update();
-  }
+  //   update();
+  // }
 
-  followUser() async {
-    var docFollowers = await FirebaseFirestore.instance
-        .collection("users")
-        .doc(storeUserIdFromVideoTable)
-        .collection("followers")
-        .doc(FirebaseAuth.instance.currentUser!.uid)
-        .get();
+  // followUser() async {
+  //   var docFollowers = await FirebaseFirestore.instance
+  //       .collection("users")
+  //       .doc(storeUserIdFromVideoTable)
+  //       .collection("followers")
+  //       .doc(FirebaseAuth.instance.currentUser!.uid)
+  //       .get();
 
-    if (!docFollowers.exists) {
-      await FirebaseFirestore.instance
-          .collection("users")
-          .doc(storeUserIdFromVideoTable)
-          .collection("followers")
-          .doc(FirebaseAuth.instance.currentUser!.uid)
-          .set({});
+  //   if (!docFollowers.exists) {
+  //     await FirebaseFirestore.instance
+  //         .collection("users")
+  //         .doc(storeUserIdFromVideoTable)
+  //         .collection("followers")
+  //         .doc(FirebaseAuth.instance.currentUser!.uid)
+  //         .set({});
 
-      _userMapData.value
-          .update('followers', (value) => (int.parse(value) + 1).toString());
+  //     _userMapData.value
+  //         .update('followers', (value) => (int.parse(value) + 1).toString());
 
-    } else {
-    }
+  //   } else {
+  //   }
 
-    update();
-  }
+  //   update();
+  //  }
 }

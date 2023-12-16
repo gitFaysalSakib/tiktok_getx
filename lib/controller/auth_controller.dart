@@ -4,11 +4,11 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:get/get.dart';
+import 'package:getx_tiktok/view/screen/home_screen.dart';
 import 'package:image_picker/image_picker.dart';
 
 import '../model/user.dart';
 import '../view/screen/auth/login_screen.dart';
-import '../view/screen/home_screen.dart';
 
 class AuthController extends GetxController {
   static AuthController instance = Get.find();
@@ -102,12 +102,15 @@ Get.snackbar("Error Logging In",e.toString());
 
     //Rx - Observable Keyword - Continously Checking Variable Is Changing Or Not.
   }
+  
 
   _setInitialView(User? user){
     if(user == null){
-      Get.offAll(()=> ());
+      Get.offAll(LoginScreen());
     }else{
-      Get.offAll(() => HomeScreen());
+      Get.offAll(HomeScreen());
     }
   }
+
+  
 }
