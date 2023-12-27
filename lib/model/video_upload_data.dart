@@ -11,6 +11,8 @@ class VideoUploadData{
   String caption;
   String videoUrl;
   String thumbnail;
+  String thumbnailId;
+
   String profilePics;
 
 
@@ -18,6 +20,8 @@ class VideoUploadData{
    required this.username,
     required this.uid,
   required this.thumbnail,
+    required this.thumbnailId,
+
   required this.caption,
   required this.commentsCount,
   required this.videoId,
@@ -42,7 +46,9 @@ class VideoUploadData{
     "songName" : songName,
     "caption" : caption,
     "videoUrl" : videoUrl,
-    "thumbnail" : thumbnail
+    "thumbnail" : thumbnail,
+    "thumbnailId" : thumbnailId
+
     };
 
     static VideoUploadData fromSnap( DocumentSnapshot snap){
@@ -59,6 +65,8 @@ class VideoUploadData{
       shareCount: snapshot["shareCount"],
       songName: snapshot["songName"],
       thumbnail: snapshot["thumbnail"],
+      thumbnailId: snapshot["thumbnailId"],
+
       profilePics: snapshot["profilePics"],
       videoUrl: snapshot["videoUrl"]
     );

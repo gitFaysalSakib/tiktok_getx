@@ -24,9 +24,11 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return GetMaterialApp(
       title: 'TikTok',
+      
       debugShowCheckedModeBanner: false,
       theme:
           ThemeData.dark().copyWith(scaffoldBackgroundColor: backgroundColor),
+          
       home: LoginScreen(),
     );
   }

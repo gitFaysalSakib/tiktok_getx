@@ -45,7 +45,10 @@ class VideoUploadController extends GetxController {
         likes: [],
         profilePics: (userDoc.data()! as Map<String, dynamic>)['profilePic'],
         caption: caption,
-        videoId: videoId);
+        videoId: videoId,
+        thumbnailId: videoId
+        
+        );
 
         await FirebaseFirestore.instance
         .collection("videos").doc(videoId).set(videoModel.toJson());

@@ -53,23 +53,33 @@ class LoginScreen extends StatelessWidget {
                 child: Container(
                     padding: EdgeInsets.symmetric(horizontal: 50, vertical: 10),
                     child: Text("Login"))),
-
-
- SizedBox(
+            SizedBox(
               height: 30,
             ),
-
-             ElevatedButton(
+            ElevatedButton(
                 onPressed: () {
-                   Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) =>
-                                        (SignUpScreen())));
-              },
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => (SignUpScreen())));
+                },
                 child: Container(
                     padding: EdgeInsets.symmetric(horizontal: 50, vertical: 10),
                     child: Text("SignUp"))),
+
+                    SizedBox(
+              height: 30,
+            ),
+
+            // ElevatedButton(
+            //     onPressed: () {
+            //       Share.share("com.example.getx_tiktok");
+            //     },
+            //     child: Container(
+            //         padding: EdgeInsets.symmetric(horizontal: 50, vertical: 10),
+            //         child: Text("Share App"))),
+
+                    
           ],
         ),
       ),

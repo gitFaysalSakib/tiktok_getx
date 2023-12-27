@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:getx_tiktok/view/screen/thumbnil_to_video_display.dart';
 
 import '../../controller/all_users_profile_controller.dart';
 import '../../controller/auth_controller.dart';
@@ -33,8 +34,6 @@ class _AllUsersProfileScreenState extends State<AllUsersProfileScreen> {
     });
 
     //new end
-
-    
   }
 
   @override
@@ -161,36 +160,49 @@ class _AllUsersProfileScreenState extends State<AllUsersProfileScreen> {
                   SizedBox(
                     height: 35,
                   ),
-                  InkWell(
-                    onTap: () {
-                      if (FirebaseAuth.instance.currentUser!.uid ==
-                          userDatashowFromVideoProfile.uid) {
-                        allUserProfileDatacontroller.logoutChecking();
-                      } else {
-                        allUserProfileDatacontroller
-                            .followUnfollowMethod(widget.id);
-                      }
+                  Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        InkWell(
+                          onTap: () {
+                            // if (FirebaseAuth.instance.currentUser!.uid ==
+                            //     userDatashowFromVideoProfile.uid) {
+                            //   allUserProfileDatacontroller.logoutChecking();
+                            // } else {
+                            //   allUserProfileDatacontroller
+                            //       .followUnfollowMethod(widget.id);
+                            // }
+                          //allUserProfileDatacontroller.usersThmbnilClickShowVideoByThumbnilId(widget.id);
 
-                      //  allUserProfileDatacontroller.clickFollowToAddFollowers(widget.id);
-                    },
-                    child: Container(
-                        width: 150,
-                        height: 50,
-                        decoration: BoxDecoration(
-                            border:
-                                Border.all(color: Colors.white60, width: 0.6),
-                            borderRadius: BorderRadius.circular(10)),
-                        child: Center(
-                          child: Text(FirebaseAuth.instance.currentUser!.uid ==
-                                  userDatashowFromVideoProfile.uid
-                              ? "Sign Out"
-                              : allUserProfileDatacontroller
-                                          .getFollowOrUnfollow['isFollowing'] ==
-                                      true
-                                  ? "Unfollow"
-                                  : "Follow"),
-                        )),
-                  ),
+
+                          },
+                          child: Container(
+                              width: 150,
+                              height: 50,
+                              decoration: BoxDecoration(
+                                  border: Border.all(
+                                      color: Colors.white60, width: 0.6),
+                                  borderRadius: BorderRadius.circular(10)),
+                              child: Center(
+                                child: Text(
+                                    FirebaseAuth.instance.currentUser!.uid ==
+                                            userDatashowFromVideoProfile.uid
+                                        ? "Sign Out"
+                                        : allUserProfileDatacontroller
+                                                        .getFollowOrUnfollow[
+                                                    'isFollowing'] ==
+                                                true
+                                            ? "Unfollow"
+                                            : "Follow"),
+                              )),
+                        ),
+                      ],
+                    ),
+                    
+                   
+                  ]),
                   SizedBox(
                     height: 20,
                   ),
@@ -202,7 +214,7 @@ class _AllUsersProfileScreenState extends State<AllUsersProfileScreen> {
                   SizedBox(
                     height: 50,
                   ),
-                   GridView.builder(
+                  GridView.builder(
                       physics: NeverScrollableScrollPhysics(),
                       shrinkWrap: true,
                       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
@@ -215,19 +227,35 @@ class _AllUsersProfileScreenState extends State<AllUsersProfileScreen> {
                       itemBuilder: (context, index) {
                         String thumbnail = allUserProfileDatacontroller
                             .getUserVideoThumnil['thumbnails'][index];
-                        return InkWell(
-                          onTap: (){
-                           // allUserProfileDatacontroller.usersThbnilClickVideoShowDisplay(widget.id);
-                         //  String videoIdStore =  allUserProfileDatacontroller.getUserVideoId['videoId'][index];
-                                                
+                            
+                             
+                           // print(thumbnail[index]);
+                        return 
+                          
+                           // allUserProfileDatacontroller.usersThmbnilClickShowVideoByThumbnilId(widget.id);
+                           //print("kkk");
+                          
+                           InkWell(
+                            onTap: (){
+                               String thumbnailIdcheck = allUserProfileDatacontroller
+                            .getUserVideoThumnil['thumbnailId'][index];
+                             Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                        (ThumbnilToVideoDisplay(
+                                         id: thumbnailIdcheck))));
 
-                          },
-                          child: CachedNetworkImage(
-                            imageUrl: thumbnail,
-                            fit: BoxFit.cover,
-                            errorWidget: (context, url, error) => Icon(Icons.error),
-                          ),
-                        );
+                              print(thumbnailIdcheck);
+                            },
+                             child: CachedNetworkImage(
+                              imageUrl: thumbnail,
+                              fit: BoxFit.cover,
+                              errorWidget: (context, url, error) =>
+                                  Icon(Icons.error),
+                                                     ),
+                           );
+                        
                       },
                     ),
                   
