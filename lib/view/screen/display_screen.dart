@@ -9,6 +9,7 @@ import '../widgets/profile_button.dart';
 import 'all_users_profile_screen.dart';
 
 class DisplayVideoScreen extends StatefulWidget {
+
   DisplayVideoScreen({super.key});
 
   @override
@@ -22,7 +23,6 @@ class _DisplayVideoScreenState extends State<DisplayVideoScreen> {
 
       @override
   void initState() {
-    // TODO: implement initState
     super.initState();
   }
 

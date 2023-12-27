@@ -28,21 +28,13 @@ class _AllUsersProfileScreenState extends State<AllUsersProfileScreen> {
       allUserProfileDatacontroller.fetchIdentifyUserByUserId(widget.id);
       allUserProfileDatacontroller.followFollowingCount(widget.id);
       allUserProfileDatacontroller.userAllVideoLikeCount(widget.id);
-      allUserProfileDatacontroller.loginUserAllVideoShow(widget.id);
+      allUserProfileDatacontroller.userAllVideoShowByThumbnil(widget.id);
       allUserProfileDatacontroller.followUnFollowButtonCheck(widget.id);
     });
 
     //new end
 
-    // allUserProfileDatacontroller
-    //     .fetchFollowersFollowingInitionlResponse(widget.id);
-
-    // allUserProfileDatacontroller.fetchUserByUserIdVideoId(widget.id);
-    // var idcheck = allUserProfileDatacontroller
-    //     .fetchFollowersFollowingInitionlResponse(widget.id);
-    // print(idcheck);
-
-    //print("allscreen");
+    
   }
 
   @override
@@ -210,26 +202,35 @@ class _AllUsersProfileScreenState extends State<AllUsersProfileScreen> {
                   SizedBox(
                     height: 50,
                   ),
-                  GridView.builder(
-                    physics: NeverScrollableScrollPhysics(),
-                    shrinkWrap: true,
-                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: 2,
-                        childAspectRatio: 1,
-                        crossAxisSpacing: 5),
-                    itemCount: allUserProfileDatacontroller
-                            .getUserVideoThumnil['thumbnails']?.length ??
-                        0,
-                    itemBuilder: (context, index) {
-                      String thumbnail = allUserProfileDatacontroller
-                          .getUserVideoThumnil['thumbnails'][index];
-                      return CachedNetworkImage(
-                        imageUrl: thumbnail,
-                        fit: BoxFit.cover,
-                        errorWidget: (context, url, error) => Icon(Icons.error),
-                      );
-                    },
-                  )
+                   GridView.builder(
+                      physics: NeverScrollableScrollPhysics(),
+                      shrinkWrap: true,
+                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisCount: 2,
+                          childAspectRatio: 1,
+                          crossAxisSpacing: 5),
+                      itemCount: allUserProfileDatacontroller
+                              .getUserVideoThumnil['thumbnails']?.length ??
+                          0,
+                      itemBuilder: (context, index) {
+                        String thumbnail = allUserProfileDatacontroller
+                            .getUserVideoThumnil['thumbnails'][index];
+                        return InkWell(
+                          onTap: (){
+                           // allUserProfileDatacontroller.usersThbnilClickVideoShowDisplay(widget.id);
+                         //  String videoIdStore =  allUserProfileDatacontroller.getUserVideoId['videoId'][index];
+                                                
+
+                          },
+                          child: CachedNetworkImage(
+                            imageUrl: thumbnail,
+                            fit: BoxFit.cover,
+                            errorWidget: (context, url, error) => Icon(Icons.error),
+                          ),
+                        );
+                      },
+                    ),
+                  
                 ]),
               )),
             );
