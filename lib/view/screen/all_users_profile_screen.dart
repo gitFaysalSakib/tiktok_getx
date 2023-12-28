@@ -167,13 +167,13 @@ class _AllUsersProfileScreenState extends State<AllUsersProfileScreen> {
                       children: [
                         InkWell(
                           onTap: () {
-                            // if (FirebaseAuth.instance.currentUser!.uid ==
-                            //     userDatashowFromVideoProfile.uid) {
-                            //   allUserProfileDatacontroller.logoutChecking();
-                            // } else {
-                            //   allUserProfileDatacontroller
-                            //       .followUnfollowMethod(widget.id);
-                            // }
+                            if (FirebaseAuth.instance.currentUser!.uid ==
+                                userDatashowFromVideoProfile.uid) {
+                              allUserProfileDatacontroller.logoutChecking();
+                            } else {
+                              allUserProfileDatacontroller
+                                  .followUnfollowMethod(widget.id);
+                            }
                           //allUserProfileDatacontroller.usersThmbnilClickShowVideoByThumbnilId(widget.id);
 
 

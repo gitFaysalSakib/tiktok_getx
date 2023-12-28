@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:getx_tiktok/controller/login_user_profile_controller.dart';
+import 'package:getx_tiktok/view/screen/thumbnil_to_video_display.dart';
 
 class LoginUserProfileScreen extends StatefulWidget {
   final String id;
@@ -19,7 +20,7 @@ class _LoginUserProfileScreenState extends State<LoginUserProfileScreen> {
     loginUserProCon.fetchUserTableForID(widget.id);
     loginUserProCon.followFollowing();
     loginUserProCon.loginUserAllVideoLikeCount();
-    loginUserProCon.loginUserAllVideoShow();
+    loginUserProCon.loginUserAllThumbnilShow();
     super.initState();
 
   }
@@ -181,10 +182,24 @@ class _LoginUserProfileScreenState extends State<LoginUserProfileScreen> {
                     itemBuilder: (context, index) {
                       String thumbnails = loginUserProCon
                           .getUserVideoThumnil['thumbnails'][index];
-                      return CachedNetworkImage(
-                        imageUrl: thumbnails,
-                        fit: BoxFit.cover,
-                        errorWidget: (context, url, error) => Icon(Icons.error),
+                      return InkWell(
+                         onTap: (){
+                               String thumbnailIdcheck = loginUserProCon
+                            .getUserVideoThumnil['thumbnailId'][index];
+                             Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                        (ThumbnilToVideoDisplay(
+                                         id: thumbnailIdcheck))));
+
+                              print(thumbnailIdcheck);
+                            },
+                        child: CachedNetworkImage(
+                          imageUrl: thumbnails,
+                          fit: BoxFit.cover,
+                          errorWidget: (context, url, error) => Icon(Icons.error),
+                        ),
                       );
                     },
                   )

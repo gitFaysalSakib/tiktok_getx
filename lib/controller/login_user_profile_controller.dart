@@ -12,19 +12,20 @@ class LoginUserProfileController extends GetxController {
   final Rx<List<myUser>> _myUserModel = Rx<List<myUser>>([]);
   List<myUser> get getMyUserModel => _myUserModel.value;
 
-  final Rx<Map<String, dynamic>> _userMapDataFollowFollowing = Rx<Map<String, dynamic>>({});
+  final Rx<Map<String, dynamic>> _userMapDataFollowFollowing =
+      Rx<Map<String, dynamic>>({});
   Map<String, dynamic> get getUserMapData => _userMapDataFollowFollowing.value;
 
   final Rx<Map<String, dynamic>> _onlyLikesCount = Rx<Map<String, dynamic>>({});
   Map<String, dynamic> get getLikesCount => _onlyLikesCount.value;
 
- final Rx<Map<String, dynamic>> _userVideoThumnil = Rx<Map<String, dynamic>>({});
+  final Rx<Map<String, dynamic>> _userVideoThumnil =
+      Rx<Map<String, dynamic>>({});
   Map<String, dynamic> get getUserVideoThumnil => _userVideoThumnil.value;
 
   final Rx<List<VideoUploadData>> _videoDataModel =
       Rx<List<VideoUploadData>>([]);
   List<VideoUploadData> get videoDataModel => _videoDataModel.value;
-
 
   //  final Rx<List<VideoUploadData>> _videoDataModel =
   //     Rx<List<VideoUploadData>>([]);
@@ -76,7 +77,6 @@ class LoginUserProfileController extends GetxController {
     update();
   }
 
-  
   loginUserAllVideoLikeCount() async {
     List<String> likecount = [];
     int totalLikeSum = 0;
@@ -96,18 +96,16 @@ class LoginUserProfileController extends GetxController {
       totalLikeSum = int.parse(likecount[i]) + totalLikeSum;
     }
 
-     _onlyLikesCount.value = {
+    _onlyLikesCount.value = {
       'likes': totalLikeSum,
-     
     };
 
     //print(totalLikeSum);
   }
 
-
-
-  loginUserAllVideoShow()async{
+  loginUserAllThumbnilShow() async {
     List<String> thumbnails = [];
+    List<String> thumbnailId = [];
 
     var myVideos = await FirebaseFirestore.instance
         .collection("videos")
@@ -115,23 +113,19 @@ class LoginUserProfileController extends GetxController {
         .get();
     for (int i = 0; i < myVideos.docs.length; i++) {
       thumbnails.add((myVideos.docs[i].data() as dynamic)['thumbnail']);
+      thumbnailId.add((myVideos.docs[i].data() as dynamic)['thumbnailId']);
+
       print(thumbnails.length);
       update();
     }
 
- _userVideoThumnil.value = {
+    _userVideoThumnil.value = {
       'thumbnails': thumbnails,
-     
+      'thumbnailId': thumbnailId,
     };
-
   }
 
   logoutChecking() {
-  
-      authController.signOut();
-   
-    }
-  
-
- 
+    authController.signOut();
+  }
 }
