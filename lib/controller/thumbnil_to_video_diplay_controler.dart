@@ -7,24 +7,15 @@ import 'auth_controller.dart';
 class ThumbnilVideoDisplayControler extends GetxController {
     final Rx<List<VideoUploadData>> _videoList = Rx<List<VideoUploadData>>([]);
   List<VideoUploadData> get videoList => _videoList.value;
-  @override
-  // void onInit() {
-  //   super.onInit();
-   
-  //   // _videoList.bindStream(FirebaseFirestore.instance
-  //   //     .collection("videos")
-  //   //     .snapshots()
-  //   //     .map((QuerySnapshot query) {
-  //   //   List<VideoUploadData> videosDataList = [];
-  //   //   for (var element in query.docs) {
-  //   //     videosDataList.add(VideoUploadData.fromSnap(element));
-  //   //   }
-  //   //   return videosDataList;
-  //   // }));
+  
+  thumbnilVideoShowFromUserProfile(String thumbnilId)async{
 
-  // }
-  thumbnilVideoShowFromUserProfile(String thumbnilId){
-   _videoList.bindStream(FirebaseFirestore.instance
+  var myVideosTable = await FirebaseFirestore.instance
+        .collection("videos")
+        .where("thumbnailId", isEqualTo: thumbnilId)
+        .get();
+        
+           _videoList.bindStream(FirebaseFirestore.instance
         .collection("videos").where("thumbnailId", isEqualTo: thumbnilId)
         .snapshots()
         .map((QuerySnapshot query) {
@@ -34,24 +25,46 @@ class ThumbnilVideoDisplayControler extends GetxController {
       }
       return videosDataList;
     }));
+
+    
+
+
+  
 }
 
+// getUserIdByThumnilId(String thumID)async{
+//     List<String> getUserId = [];
+//     var id ;
 
-  // profileScrrenThumblineVideoShow(String userIdpassByAllUserProfileScreen){
+//    var myVideosTable = await FirebaseFirestore.instance
+//         .collection("videos")
+//         .where("thumbnailId", isEqualTo: thumID)
+//         .get();
+//     for (int i = 0; i < myVideosTable.docs.length; i++) {
+//       getUserId.add((myVideosTable.docs[i].data() as dynamic)['uid']);
+
+// id = getUserId[i];
+ 
+
+//       update();
+//     }
+//     print(id);
+
+//     _videoList.bindStream(FirebaseFirestore.instance
+//         .collection("videos").where("uid", isEqualTo: id)
+//         .snapshots()
+//         .map((QuerySnapshot query) {
+//       List<VideoUploadData> videosDataList = [];
+//       for (var element in query.docs) {
+//         videosDataList.add(VideoUploadData.fromSnap(element));
+//       }
+//       return videosDataList;
+//     }));
+// }
 
 
-  //    _videoList.bindStream(FirebaseFirestore.instance
-  //       .collection("videos").where("uid", isEqualTo: userIdpassByAllUserProfileScreen)
-  //       .snapshots()
-  //       .map((QuerySnapshot query) {
-  //     List<VideoUploadData> videosDataList = [];
-  //     for (var element in query.docs) {
-  //       videosDataList.add(VideoUploadData.fromSnap(element));
-  //     }
-  //     return videosDataList;
-  //   }));
 
-  // }
+
 
   
 

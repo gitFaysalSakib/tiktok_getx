@@ -111,121 +111,12 @@ class AllUsersProfileController extends GetxController {
     };
   }
 
-//test method not use ....start
-  // usersThbnilClickVideoShowDisplay(String idPassFromAllUserProfile) async {
-  //   var videoIdStore;
-
-  //   var myVideos = await FirebaseFirestore.instance
-  //       .collection("videos")
-  //       .where("uid", isEqualTo: idPassFromAllUserProfile)
-  //       .get();
-  //   for (int i = 0; i < myVideos.docs.length; i++) {
-  //     //videoIdStore.add((myVideos.docs[i].data() as dynamic)['videoId']);
-  //     videoIdStore = myVideos.docs[i].data()['videoId'];
-  //     print(videoIdStore);
-  //     update();
-  //   }
-
-  //   _userVideoId.value = {
-  //     'videoId': videoIdStore,
-  //   };
-
-  //   //print(videoIdStore);
-  // }
 
 
-//   usersThmbnilClickShowVideoByThumbnilId(
-//       String idPassFromAllUserProfile) async {
-//     List<String> thumbnails = [];
-//     List<String> thumbnailId = [];
-//         List<String> test = [];
 
-
-//     var myVideos = await FirebaseFirestore.instance
-//         .collection("videos")
-//         .where("uid", isEqualTo: idPassFromAllUserProfile)
-//         .get();
-//     print(myVideos.docs.length);
-//     for (int i = 0; i < myVideos.docs.length; i++) {
-//       thumbnails.add((myVideos.docs[i].data() as dynamic)['thumbnail']);
-//       thumbnailId.add((myVideos.docs[i].data() as dynamic)['thumbnailId']);
-
-//       // videoIdStore = myVideos.docs[i].data()['videoId'];
-       
-//      // update();
-//     }
-// for(int i =0; i<thumbnails.length; i++){
-//   var videoShowByThumnil = await FirebaseFirestore.instance
-//         .collection("videos")
-//         .where("thumbnail", isEqualTo: thumbnails[i])
-//         .get();
-//               test.add((myVideos.docs[i].data() as dynamic)['thumbnailId']);
-//                   // print(test);
-//                   // break;
-// }
-
-    // thumbnails[1] = thumbnailId[1] ;
-    // print(thumbnails[1]);
-
-    // _userVideoThumnil.value = {
-    //   'thumbnail': thumbnails,
-    //   'thumbnailId': thumbnailId,
-    // };
- //print(thumbnailId.length);    
-
-//  print(thumbnailId);
-    //int i = 0;
-    // if(i<thumbnailId.length){
-    //  // i++;
-    //  // print(i);
-
-    //   var videoIdFindByThumbnil = await FirebaseFirestore.instance
-    //       .collection("videos")
-    //       .where("videoId", isEqualTo: thumbnailId[i])
-    //       .get();
-
-    //   test.add((myVideos.docs[i].data() as dynamic)['thumbnailId']);
-    //    print(test);
-    // }
-    
-
-       
-
+   
 
      
-     // print(videoIdFindByThumbnil.docs.length);    
-
-     // print("not pront");    
-
-    //   // thumidget = thumbnailId[i];
-    //  // print(thumbnailId[i]);
-    //  var videoIdFindByThumbnil = await FirebaseFirestore.instance
-    //       .collection("videos")
-    //       .where("videoId", isEqualTo: thumbnailId[1])
-    //       .get();
-    //    var videoIStore = videoIdFindByThumbnil.docs[1].data()["videoId"];
-    //   print(videoIStore);
-
-    //   if (videoIStore == thumbnailId[i]) {
-    //     print("work");
-
-    //     break;
-    //   } else {
-    //     i++;
-    //     print("not work");
-    //   }
-
-    //   //    for (int i = 0; i < videoIdFindByThumbnil.docs.length; i++) {
-    //   //   //videoIdStore.add((myVideos.docs[i].data() as dynamic)['videoId']);
-    //   //var  videoIdStoreNew = videoIdFindByThumbnil.docs['videoId'];
-    //  // print(videoIdFindByThumbnil.docs.length);
-    //   //
-    // }
-
-    // print(thumbnailId);
-  //}
-//test method not use ....end..
-
 
   userAllVideoShowByThumbnil(String idPassFromAllUserProfile) async {
     List<String> thumbnails = [];

@@ -27,6 +27,7 @@ class _ThumbnilToVideoDisplayState extends State<ThumbnilToVideoDisplay> {
   void initState() {
 
     thumbnilvideoContro.thumbnilVideoShowFromUserProfile(widget.id);
+    //thumbnilvideoContro.getUserIdByThumnilId(widget.id);
     super.initState();
   }
 

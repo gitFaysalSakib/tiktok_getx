@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:getx_tiktok/view/screen/add_video.dart';
+import 'package:getx_tiktok/view/screen/chat_user_list_screen.dart';
 import 'package:getx_tiktok/view/screen/display_screen.dart';
 import 'package:getx_tiktok/view/screen/login_user_profile_screen.dart';
 import 'package:getx_tiktok/view/screen/search_screen.dart';
@@ -21,6 +22,6 @@ var pageindex = [
   DisplayVideoScreen(),
   SearchScreen(),
   addVideoScreen(),
-  Text('Messages'),
+ const ChatUserListScreen(),
   LoginUserProfileScreen(id: FirebaseAuth.instance.currentUser!.uid,),
 ];

@@ -90,10 +90,15 @@ class _AllUsersProfileScreenState extends State<AllUsersProfileScreen> {
                         crossAxisAlignment: CrossAxisAlignment.center,
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Text(
-                            "Followers",
-                            style: TextStyle(
-                                fontSize: 20, fontWeight: FontWeight.w700),
+                          InkWell(
+                            onTap: (){
+                              print("work");
+                            },
+                            child: Text(
+                              "Followers",
+                              style: TextStyle(
+                                  fontSize: 20, fontWeight: FontWeight.w700),
+                            ),
                           ),
                           SizedBox(
                             height: 10,
@@ -174,9 +179,7 @@ class _AllUsersProfileScreenState extends State<AllUsersProfileScreen> {
                               allUserProfileDatacontroller
                                   .followUnfollowMethod(widget.id);
                             }
-                          //allUserProfileDatacontroller.usersThmbnilClickShowVideoByThumbnilId(widget.id);
-
-
+                            //allUserProfileDatacontroller.usersThmbnilClickShowVideoByThumbnilId(widget.id);
                           },
                           child: Container(
                               width: 150,
@@ -200,8 +203,6 @@ class _AllUsersProfileScreenState extends State<AllUsersProfileScreen> {
                         ),
                       ],
                     ),
-                    
-                   
                   ]),
                   SizedBox(
                     height: 20,
@@ -215,50 +216,43 @@ class _AllUsersProfileScreenState extends State<AllUsersProfileScreen> {
                     height: 50,
                   ),
                   GridView.builder(
-                      physics: NeverScrollableScrollPhysics(),
-                      shrinkWrap: true,
-                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                          crossAxisCount: 2,
-                          childAspectRatio: 1,
-                          crossAxisSpacing: 5),
-                      itemCount: allUserProfileDatacontroller
-                              .getUserVideoThumnil['thumbnails']?.length ??
-                          0,
-                      itemBuilder: (context, index) {
-                        String thumbnail = allUserProfileDatacontroller
-                            .getUserVideoThumnil['thumbnails'][index];
-                            
-                             
-                           // print(thumbnail[index]);
-                        return 
-                          
-                           // allUserProfileDatacontroller.usersThmbnilClickShowVideoByThumbnilId(widget.id);
-                           //print("kkk");
-                          
-                           InkWell(
-                            onTap: (){
-                               String thumbnailIdcheck = allUserProfileDatacontroller
-                            .getUserVideoThumnil['thumbnailId'][index];
-                             Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) =>
-                                        (ThumbnilToVideoDisplay(
-                                         id: thumbnailIdcheck))));
+                    physics: NeverScrollableScrollPhysics(),
+                    shrinkWrap: true,
+                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: 2,
+                        childAspectRatio: 1,
+                        crossAxisSpacing: 5),
+                    itemCount: allUserProfileDatacontroller
+                            .getUserVideoThumnil['thumbnails']?.length ??
+                        0,
+                    itemBuilder: (context, index) {
+                      String thumbnail = allUserProfileDatacontroller
+                          .getUserVideoThumnil['thumbnails'][index];
 
-                              print(thumbnailIdcheck);
-                            },
-                             child: CachedNetworkImage(
-                              imageUrl: thumbnail,
-                              fit: BoxFit.cover,
-                              errorWidget: (context, url, error) =>
-                                  Icon(Icons.error),
-                                                     ),
-                           );
+                      return InkWell(
+                        onTap: () {
+                          String thumbnailIdcheck = allUserProfileDatacontroller
+                              .getUserVideoThumnil['thumbnailId'][index];
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => (ThumbnilToVideoDisplay(
+                                      id: thumbnailIdcheck))));
+
+                          print(thumbnailIdcheck);
+                        },
                         
-                      },
-                    ),
-                  
+                        child: CachedNetworkImage(
+                          imageUrl: thumbnail,
+                          fit: BoxFit.cover,
+                          errorWidget: (context, url, error) =>
+                              Icon(Icons.error),
+                        ),
+                        
+                      );
+
+                    },
+                  ),
                 ]),
               )),
             );
