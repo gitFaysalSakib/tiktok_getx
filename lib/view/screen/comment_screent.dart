@@ -19,6 +19,7 @@ class CommentScreen extends StatelessWidget {
     commentController.updatePostID(id);
 
     return Scaffold(
+      
         body: SingleChildScrollView(
       child: SizedBox(
           width: size.width,
@@ -77,11 +78,17 @@ class CommentScreen extends StatelessWidget {
                             ],
                           ),
                           trailing: InkWell(
-                            onTap: (){
-                              commentController.likeUserComment(commentFetchData.commentId);
-                              print(commentFetchData.commentId);
-                            },
-                             child: Icon(Icons.favorite , color : commentFetchData.likes.contains(FirebaseAuth.instance.currentUser!.uid) ? Colors.red : Colors.white)),
+                              onTap: () {
+                                commentController.likeUserComment(
+                                    commentFetchData.commentId);
+                                print(commentFetchData.commentId);
+                              },
+                              child: Icon(Icons.favorite,
+                                  color: commentFetchData.likes.contains(
+                                          FirebaseAuth
+                                              .instance.currentUser!.uid)
+                                      ? Colors.red
+                                      : Colors.white)),
                         );
                       });
                 }),
@@ -96,13 +103,13 @@ class CommentScreen extends StatelessWidget {
                   child: Text("Send"),
                   onPressed: () {
                     commentController.postComment(_commentControllerText.text);
-                    
-  
-           },
+                  },
                 ),
               )
             ],
-          )),
-    ));
+          )
+          ),
+    ) 
+    );
   }
 }

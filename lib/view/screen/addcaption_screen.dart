@@ -72,7 +72,7 @@ TextEditingController captionController = new TextEditingController();
              print("okkkkkkk");
 
       }, child: Text("Upload") , 
-      style: ElevatedButton.styleFrom(primary: buttonColor),)
+      style: ElevatedButton.styleFrom(backgroundColor: buttonColor),)
     ],
     ),
             )

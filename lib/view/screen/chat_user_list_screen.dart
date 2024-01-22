@@ -102,7 +102,7 @@ class _ChatUserListScreenState extends State<ChatUserListScreen> {
                       children: [
                         GestureDetector(
                           onTap: () {
-                            print(userDataFromControler.uid);
+                           // print(userDataFromControler.uid);
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(

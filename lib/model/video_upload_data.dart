@@ -67,7 +67,7 @@ class VideoUploadData{
       thumbnail: snapshot["thumbnail"],
       thumbnailId: snapshot["thumbnailId"],
 
-      profilePics: snapshot["profilePics"],
+        profilePics: snapshot["profilePics"],
       videoUrl: snapshot["videoUrl"]
     );
 

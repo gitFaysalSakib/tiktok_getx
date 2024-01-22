@@ -59,7 +59,8 @@ class _AllUsersProfileScreenState extends State<AllUsersProfileScreen> {
               ),
               body: SingleChildScrollView(
                   child: SafeArea(
-                child: Column(children: [
+                child: Column(
+                  children: [
                   SizedBox(
                     height: 40,
                   ),
