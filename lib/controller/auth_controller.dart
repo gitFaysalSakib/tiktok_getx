@@ -38,8 +38,7 @@ class AuthController extends GetxController {
             name: username,
             email: email,
             profilePhoto: downloadUrl,
-            uid: credential.user!.uid
-            );
+            uid: credential.user!.uid);
         //  print(user.name);
         // print('check');
         await FirebaseFirestore.instance
@@ -66,32 +65,27 @@ class AuthController extends GetxController {
   }
 
   //login...
-  void login(String email, String password) async
-  {
-
-    try{
-  if(email.isNotEmpty && password.isNotEmpty){
-    await FirebaseAuth.instance.signInWithEmailAndPassword(email: email, password: password);
-  }else{
-    Get.snackbar("Error Logging In", "Please enter all the fields");
-  }
-
-
-    }catch(e){
-Get.snackbar("Error Logging In",e.toString());
+  void login(String email, String password) async {
+    try {
+      if (email.isNotEmpty && password.isNotEmpty) {
+        await FirebaseAuth.instance
+            .signInWithEmailAndPassword(email: email, password: password);
+      } else {
+        Get.snackbar("Error Logging In", "Please enter all the fields");
+      }
+    } catch (e) {
+      Get.snackbar("Error Logging In", e.toString());
     }
-
-   
   }
-  signOut(){
+
+  signOut() {
     FirebaseAuth.instance.signOut();
     Get.offAll(LoginScreen());
   }
+
   //login state check any user login or not..and if login then go to home scrren when app open..
   late Rx<User?> _user;
   User get user => _user.value!;
-
-
 
   @override
   void onReady() {
@@ -102,15 +96,12 @@ Get.snackbar("Error Logging In",e.toString());
 
     //Rx - Observable Keyword - Continously Checking Variable Is Changing Or Not.
   }
-  
 
-  _setInitialView(User? user){
-    if(user == null){
+  _setInitialView(User? user) {
+    if (user == null) {
       Get.offAll(LoginScreen());
-    }else{
+    } else {
       Get.offAll(HomeScreen());
     }
   }
-
-  
 }

@@ -59,8 +59,7 @@ class _AllUsersProfileScreenState extends State<AllUsersProfileScreen> {
               ),
               body: SingleChildScrollView(
                   child: SafeArea(
-                child: Column(
-                  children: [
+                child: Column(children: [
                   SizedBox(
                     height: 40,
                   ),
@@ -92,7 +91,7 @@ class _AllUsersProfileScreenState extends State<AllUsersProfileScreen> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           InkWell(
-                            onTap: (){
+                            onTap: () {
                               print("work");
                             },
                             child: Text(
@@ -242,16 +241,13 @@ class _AllUsersProfileScreenState extends State<AllUsersProfileScreen> {
 
                           print(thumbnailIdcheck);
                         },
-                        
                         child: CachedNetworkImage(
                           imageUrl: thumbnail,
                           fit: BoxFit.cover,
                           errorWidget: (context, url, error) =>
                               Icon(Icons.error),
                         ),
-                        
                       );
-
                     },
                   ),
                 ]),

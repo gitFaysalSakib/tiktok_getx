@@ -15,10 +15,8 @@ class VideoUploadController extends GetxController {
   //id generator for upload video..
   var uuid = Uuid();
 
-
   //main method to upload video..
-   uploadVideo(String songName, String caption, String videoPath) async {
-
+  uploadVideo(String songName, String caption, String videoPath) async {
     String uid = FirebaseAuth.instance.currentUser!.uid;
     print(uid);
 
@@ -27,12 +25,11 @@ class VideoUploadController extends GetxController {
 
     // print(userDoc);
     String videoId = uuid.v1();
-     String videoUrlGenerate = await _uploadVideoToStorage(videoId, videoPath);
+    String videoUrlGenerate = await _uploadVideoToStorage(videoId, videoPath);
 
     // print(videoUrlGenerate);
     String thumbnail = await _uploadVideoThumbToStorage(videoId, videoPath);
-        print("thumbnail");
-
+    print("thumbnail");
 
     VideoUploadData videoModel = VideoUploadData(
         uid: uid,
@@ -46,13 +43,12 @@ class VideoUploadController extends GetxController {
         profilePics: (userDoc.data()! as Map<String, dynamic>)['profilePic'],
         caption: caption,
         videoId: videoId,
-        thumbnailId: videoId
-        
-        );
+        thumbnailId: videoId);
 
-        await FirebaseFirestore.instance
-        .collection("videos").doc(videoId).set(videoModel.toJson());
-
+    await FirebaseFirestore.instance
+        .collection("videos")
+        .doc(videoId)
+        .set(videoModel.toJson());
   }
 
   //thumbnail generator method..
@@ -62,14 +58,14 @@ class VideoUploadController extends GetxController {
   }
 
   //video thumbnil upload on firebase storage method..
-  Future<String> _uploadVideoThumbToStorage(String id , String videoPath) async{
-  Reference reference = 
-  FirebaseStorage.instance.ref().child("thumbnail").child(id);
-  UploadTask uploadTask = reference.putFile(await _getThumb(videoPath));
-  TaskSnapshot snapshot = await uploadTask;
-  String downloadUrl = await snapshot.ref.getDownloadURL();
-  return downloadUrl;
-}
+  Future<String> _uploadVideoThumbToStorage(String id, String videoPath) async {
+    Reference reference =
+        FirebaseStorage.instance.ref().child("thumbnail").child(id);
+    UploadTask uploadTask = reference.putFile(await _getThumb(videoPath));
+    TaskSnapshot snapshot = await uploadTask;
+    String downloadUrl = await snapshot.ref.getDownloadURL();
+    return downloadUrl;
+  }
 
   //video upload on firebase storage method...
   _uploadVideoToStorage(String videoId, String videoPath) async {

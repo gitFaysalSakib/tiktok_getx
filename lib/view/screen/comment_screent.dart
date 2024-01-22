@@ -19,7 +19,6 @@ class CommentScreen extends StatelessWidget {
     commentController.updatePostID(id);
 
     return Scaffold(
-      
         body: SingleChildScrollView(
       child: SizedBox(
           width: size.width,
@@ -107,9 +106,7 @@ class CommentScreen extends StatelessWidget {
                 ),
               )
             ],
-          )
-          ),
-    ) 
-    );
+          )),
+    ));
   }
 }

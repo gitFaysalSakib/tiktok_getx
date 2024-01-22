@@ -86,8 +86,7 @@ class CommentController extends GetxController {
 
   //user likes to comment on others user comment...
   likeUserComment(String commentId) async {
-        var currentUser = FirebaseAuth.instance.currentUser!.uid;
-
+    var currentUser = FirebaseAuth.instance.currentUser!.uid;
 
     DocumentSnapshot videoDoc = await FirebaseFirestore.instance
         .collection("videos")
@@ -101,7 +100,9 @@ class CommentController extends GetxController {
     if ((videoDoc.data() as dynamic)['likes'].contains(currentUser)) {
       await FirebaseFirestore.instance
           .collection("videos")
-          .doc(_videoIdGetFromDisplay).collection("comments").doc(commentId)
+          .doc(_videoIdGetFromDisplay)
+          .collection("comments")
+          .doc(commentId)
           .update({
         'likes': FieldValue.arrayRemove([currentUser]),
       });
@@ -109,7 +110,9 @@ class CommentController extends GetxController {
     } else {
       await FirebaseFirestore.instance
           .collection("videos")
-          .doc(_videoIdGetFromDisplay).collection("comments").doc(commentId)
+          .doc(_videoIdGetFromDisplay)
+          .collection("comments")
+          .doc(commentId)
           .update({
         'likes': FieldValue.arrayUnion([currentUser]),
       });

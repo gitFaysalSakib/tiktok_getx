@@ -111,18 +111,9 @@ class AllUsersProfileController extends GetxController {
     };
   }
 
-
-
-
-   
-
-     
-
   userAllVideoShowByThumbnil(String idPassFromAllUserProfile) async {
     List<String> thumbnails = [];
-        List<String> thumbnailId = [];
-
-
+    List<String> thumbnailId = [];
 
     var myVideos = await FirebaseFirestore.instance
         .collection("videos")
@@ -130,8 +121,7 @@ class AllUsersProfileController extends GetxController {
         .get();
     for (int i = 0; i < myVideos.docs.length; i++) {
       thumbnails.add((myVideos.docs[i].data() as dynamic)['thumbnail']);
-            thumbnailId.add((myVideos.docs[i].data() as dynamic)['thumbnailId']);
-
+      thumbnailId.add((myVideos.docs[i].data() as dynamic)['thumbnailId']);
 
       update();
     }
@@ -140,11 +130,7 @@ class AllUsersProfileController extends GetxController {
       'thumbnails': thumbnails,
       'thumbnailId': thumbnailId,
     };
-
   }
-
-
-  
 
   bool isFollowing = false;
 
@@ -188,7 +174,7 @@ class AllUsersProfileController extends GetxController {
     print(getFollowersWhenClickFollowButton.exists);
 
     if (getFollowersWhenClickFollowButton.exists) {
-     // print("login user found");
+      // print("login user found");
 
       await FirebaseFirestore.instance
           .collection("users")
@@ -208,9 +194,9 @@ class AllUsersProfileController extends GetxController {
         .collection('followers')
         .doc(FirebaseAuth.instance.currentUser!.uid)
         .get();
-   // print(doc.exists);
+    // print(doc.exists);
     var loggedUserId = AuthController.instance.user.uid;
-   // print(loggedUserId);
+    // print(loggedUserId);
     //var currentUserid = FirebaseAuth.instance.currentUser!.uid;
     if (doc.exists) {
       await FirebaseFirestore.instance
@@ -232,7 +218,7 @@ class AllUsersProfileController extends GetxController {
         .collection('followers')
         .doc(FirebaseAuth.instance.currentUser!.uid)
         .get();
-   // print(doc.exists);
+    // print(doc.exists);
     if (doc.exists) {
       unfollowButtonClick(idPassFromAllUserProfile);
     } else {

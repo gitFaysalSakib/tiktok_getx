@@ -5,13 +5,13 @@ import '../model/video_upload_data.dart';
 import 'auth_controller.dart';
 
 class VideoShowFromFirebaseInDisplay extends GetxController {
-    final Rx<List<VideoUploadData>> _videoList = Rx<List<VideoUploadData>>([]);
+  final Rx<List<VideoUploadData>> _videoList = Rx<List<VideoUploadData>>([]);
   List<VideoUploadData> get videoList => _videoList.value;
 
   @override
   void onInit() {
     super.onInit();
-   
+
     _videoList.bindStream(FirebaseFirestore.instance
         .collection("videos")
         .snapshots()
@@ -26,7 +26,6 @@ class VideoShowFromFirebaseInDisplay extends GetxController {
 
   // profileScrrenThumblineVideoShow(String userIdpassByAllUserProfileScreen){
 
-
   //    _videoList.bindStream(FirebaseFirestore.instance
   //       .collection("videos").where("uid", isEqualTo: userIdpassByAllUserProfileScreen)
   //       .snapshots()
@@ -40,17 +39,15 @@ class VideoShowFromFirebaseInDisplay extends GetxController {
 
   // }
 
-  
-
   //user video like count....
- likeVideoCount(String videoIdCheck) async {
+  likeVideoCount(String videoIdCheck) async {
     DocumentSnapshot doc = await FirebaseFirestore.instance
         .collection("videos")
         .doc(videoIdCheck)
         .get();
-        print(doc.exists);
-     var loggedUserId = AuthController.instance.user.uid;
-     print(loggedUserId);
+    print(doc.exists);
+    var loggedUserId = AuthController.instance.user.uid;
+    print(loggedUserId);
     //var currentUserid = FirebaseAuth.instance.currentUser!.uid;
     if ((doc.data() as dynamic)["likes"].contains(loggedUserId)) {
       await FirebaseFirestore.instance

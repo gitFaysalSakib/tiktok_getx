@@ -3,7 +3,6 @@ import 'package:get/get.dart';
 import 'package:getx_tiktok/controller/chat_screen_controller.dart';
 import 'package:getx_tiktok/view/widgets/text_input.dart';
 
-
 class ChatScreenNew extends StatefulWidget {
   final String id;
   ChatScreenNew({required this.id});
@@ -36,7 +35,6 @@ class _ChatScreenNewState extends State<ChatScreenNew> {
     // commentController.updatePostID(id);
 
     return Scaffold(
-      
       backgroundColor: const Color(0xff1B202D),
       body: SingleChildScrollView(
         child: SizedBox(
@@ -44,222 +42,82 @@ class _ChatScreenNewState extends State<ChatScreenNew> {
           height: size.height,
           child: Column(
             children: [
-              Expanded(
-                child: Obx(() {
+              Expanded(child: Obx(() {
                 return ListView.builder(
                     shrinkWrap: true,
                     itemCount: chatScreenController.getMessagingTwo.length,
                     itemBuilder: (context, index) {
                       final chatFetchData =
                           chatScreenController.getMessagingTwo[index];
-                           
+
                       return Column(
                         children: [
-                         
-                          // const Row(
-                          //   children: [
-                          //     // ProfileButton(
-                          //     //     profilePhotoUrl: chatFetchData.profilePic),
-                          //     //  SizedBox(
-                          //     //   width: 5,
-                          //     // ),
-                          //   ],
-                          // ),
-                          // Padding(
-                          //   padding:  const EdgeInsets.only(left: 250.0),
-                             Row(
-                               children: [
-                                 Padding(
-                                   padding:  const EdgeInsets.only(right: 300.0),
-                                   child: Container(
-                                        decoration: BoxDecoration(
-                                            borderRadius: BorderRadius.circular(20),
-                                            color: const Color(0xff373E4E)),
-                                        child: Padding(
-                                          padding: const EdgeInsets.all(10.0),
-                                          child: 
-                                          Text(
-                                            chatFetchData.message,
-                                            style: const TextStyle(
-                                              color: Colors.white,
-                                            ),
-                                          ),
-                                        ),
+                          Row(
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.only(right: 300.0),
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(20),
+                                      color: const Color(0xff373E4E)),
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(10.0),
+                                    child: Text(
+                                      chatFetchData.message,
+                                      style: const TextStyle(
+                                        color: Colors.white,
                                       ),
-                                 ),
-                                    
-                               ],
-                             ),
-                            //  Row(
-                            //    children: [
-                            //      Container(
-                            //               decoration: BoxDecoration(
-                            //                   borderRadius: BorderRadius.circular(20),
-                            //                   color: const Color(0xff373E4E)),
-                            //               child: Padding(
-                            //                 padding: const EdgeInsets.all(10.0),
-                            //                 child: 
-                            //                 Text(
-                            //                   chatFetchData.message,
-                            //                   style: const TextStyle(
-                            //                     color: Colors.white,
-                            //                   ),
-                            //                 ),
-                            //               ),
-                            //             ),
-                            //    ],
-                            //  ),
-
-                         // ),
-                              const SizedBox(
-                                height: 5,
+                                    ),
+                                  ),
+                                ),
                               ),
-                              //  Center(
-                              //   child: Text(
-                              //   tago.format(chatFetchData.datePub.toDate()),
-                              //   style: TextStyle(
-                              //     fontSize: 10, fontWeight: FontWeight.bold),
-                              //   ),
-                              // ),
-                              // SizedBox(
-                              //   height: 10,
-                              // ),
-
-                              // Padding(
-                              //   padding: const EdgeInsets.only(right: 300.0),
-                              //   child: Container(
-                              //     decoration: BoxDecoration(
-                              //         borderRadius: BorderRadius.circular(20),
-                              //         color: Color(0xff7A8194)),
-                              //     child: const Padding(
-                              //       padding: EdgeInsets.all(10.0),
-                              //       child: Text(
-                              //         '',
-                              //         style: TextStyle(
-                              //           color: Colors.white,
-                              //         ),
-                              //       ),
-                              //     ),
-                              //   ),
-                              // ),
-                              
-                              
+                            ],
+                          ),
+                          const SizedBox(
+                            height: 5,
+                          ),
                         ],
                       );
-                    }
-                    );
-              }
-              )
-              ),
-               Expanded(
-                child: Obx(() {
+                    });
+              })),
+              Expanded(child: Obx(() {
                 return ListView.builder(
                     shrinkWrap: true,
                     itemCount: chatScreenController.getMessagingOne.length,
                     itemBuilder: (context, index) {
                       final chatFetchData =
                           chatScreenController.getMessagingOne[index];
-                           
+
                       return Column(
                         children: [
-                         
-                          // const Row(
-                          //   children: [
-                          //     // ProfileButton(
-                          //     //     profilePhotoUrl: chatFetchData.profilePic),
-                          //     //  SizedBox(
-                          //     //   width: 5,
-                          //     // ),
-                          //   ],
-                          // ),
-                          // Padding(
-                          //   padding:  const EdgeInsets.only(left: 250.0),
-                             Row(
-                               children: [
-                                 Padding(
-                                   padding:  const EdgeInsets.only(left: 300.0),
-                                   child: Container(
-                                        decoration: BoxDecoration(
-                                            borderRadius: BorderRadius.circular(20),
-                                            color: const Color(0xff373E4E)),
-                                        child: Padding(
-                                          padding: const EdgeInsets.all(10.0),
-                                          child: 
-                                          Text(
-                                            chatFetchData.message,
-                                            style: const TextStyle(
-                                              color: Colors.white,
-                                            ),
-                                          ),
-                                        ),
+                          Row(
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.only(left: 300.0),
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(20),
+                                      color: const Color(0xff373E4E)),
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(10.0),
+                                    child: Text(
+                                      chatFetchData.message,
+                                      style: const TextStyle(
+                                        color: Colors.white,
                                       ),
-                                 ),
-                                    
-                               ],
-                             ),
-                            //  Row(
-                            //    children: [
-                            //      Container(
-                            //               decoration: BoxDecoration(
-                            //                   borderRadius: BorderRadius.circular(20),
-                            //                   color: const Color(0xff373E4E)),
-                            //               child: Padding(
-                            //                 padding: const EdgeInsets.all(10.0),
-                            //                 child: 
-                            //                 Text(
-                            //                   chatFetchData.message,
-                            //                   style: const TextStyle(
-                            //                     color: Colors.white,
-                            //                   ),
-                            //                 ),
-                            //               ),
-                            //             ),
-                            //    ],
-                            //  ),
-
-                         // ),
-                              const SizedBox(
-                                height: 5,
+                                    ),
+                                  ),
+                                ),
                               ),
-                              //  Center(
-                              //   child: Text(
-                              //   tago.format(chatFetchData.datePub.toDate()),
-                              //   style: TextStyle(
-                              //     fontSize: 10, fontWeight: FontWeight.bold),
-                              //   ),
-                              // ),
-                              // SizedBox(
-                              //   height: 10,
-                              // ),
-
-                              // Padding(
-                              //   padding: const EdgeInsets.only(right: 300.0),
-                              //   child: Container(
-                              //     decoration: BoxDecoration(
-                              //         borderRadius: BorderRadius.circular(20),
-                              //         color: Color(0xff7A8194)),
-                              //     child: const Padding(
-                              //       padding: EdgeInsets.all(10.0),
-                              //       child: Text(
-                              //         '',
-                              //         style: TextStyle(
-                              //           color: Colors.white,
-                              //         ),
-                              //       ),
-                              //     ),
-                              //   ),
-                              // ),
-                              
-                              
+                            ],
+                          ),
+                          const SizedBox(
+                            height: 5,
+                          ),
                         ],
                       );
-                    }
-                    );
-              }
-              )
-              ),
-              
-             
+                    });
+              })),
               const Divider(),
               ListTile(
                 title: TextInputField(
@@ -269,7 +127,8 @@ class _ChatScreenNewState extends State<ChatScreenNew> {
                 trailing: TextButton(
                   child: const Text("Send"),
                   onPressed: () {
-                     chatScreenController.chatMethod(_messageBox.text,widget.id);
+                    chatScreenController.chatMethod(
+                        _messageBox.text, widget.id);
                   },
                 ),
               )

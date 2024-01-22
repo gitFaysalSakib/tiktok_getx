@@ -5,18 +5,18 @@ import '../model/video_upload_data.dart';
 import 'auth_controller.dart';
 
 class ThumbnilVideoDisplayControler extends GetxController {
-    final Rx<List<VideoUploadData>> _videoList = Rx<List<VideoUploadData>>([]);
+  final Rx<List<VideoUploadData>> _videoList = Rx<List<VideoUploadData>>([]);
   List<VideoUploadData> get videoList => _videoList.value;
-  
-  thumbnilVideoShowFromUserProfile(String thumbnilId)async{
 
-  var myVideosTable = await FirebaseFirestore.instance
+  thumbnilVideoShowFromUserProfile(String thumbnilId) async {
+    var myVideosTable = await FirebaseFirestore.instance
         .collection("videos")
         .where("thumbnailId", isEqualTo: thumbnilId)
         .get();
-        
-           _videoList.bindStream(FirebaseFirestore.instance
-        .collection("videos").where("thumbnailId", isEqualTo: thumbnilId)
+
+    _videoList.bindStream(FirebaseFirestore.instance
+        .collection("videos")
+        .where("thumbnailId", isEqualTo: thumbnilId)
         .snapshots()
         .map((QuerySnapshot query) {
       List<VideoUploadData> videosDataList = [];
@@ -25,12 +25,7 @@ class ThumbnilVideoDisplayControler extends GetxController {
       }
       return videosDataList;
     }));
-
-    
-
-
-  
-}
+  }
 
 // getUserIdByThumnilId(String thumID)async{
 //     List<String> getUserId = [];
@@ -44,7 +39,6 @@ class ThumbnilVideoDisplayControler extends GetxController {
 //       getUserId.add((myVideosTable.docs[i].data() as dynamic)['uid']);
 
 // id = getUserId[i];
- 
 
 //       update();
 //     }
@@ -62,21 +56,15 @@ class ThumbnilVideoDisplayControler extends GetxController {
 //     }));
 // }
 
-
-
-
-
-  
-
   //user video like count....
- likeVideoCount(String videoIdCheck) async {
+  likeVideoCount(String videoIdCheck) async {
     DocumentSnapshot doc = await FirebaseFirestore.instance
         .collection("videos")
         .doc(videoIdCheck)
         .get();
-        print(doc.exists);
-     var loggedUserId = AuthController.instance.user.uid;
-     print(loggedUserId);
+    print(doc.exists);
+    var loggedUserId = AuthController.instance.user.uid;
+    print(loggedUserId);
     //var currentUserid = FirebaseAuth.instance.currentUser!.uid;
     if ((doc.data() as dynamic)["likes"].contains(loggedUserId)) {
       await FirebaseFirestore.instance
